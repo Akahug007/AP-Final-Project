@@ -44,4 +44,51 @@ public class Player1 extends Person implements PlayerInterface
             cardDeck[i].setCardValue();
         }
     }
+
+    // Shuffles the cards around
+    // possibly a brain method
+    public Card[] shuffleCards()
+    {
+        // Array of Cards
+        Card[] temp = getCardDeck();
+        // Temporary Card object
+        Card tempCard = temp[0];
+        // Loop to randomize the entire temporary array of cards
+        for (int i = 0; i < temp.length; i++)
+        {
+            int randomIndex = (int)(Math.random() * temp.length);
+            // Swap temp[i] with temp[randomIndex]
+            Card swap = temp[i];
+            temp[i] = temp[randomIndex];
+            temp[randomIndex] = swap;
+
+            if (temp[0] == tempCard && temp[0].getCardColor() == false)
+            {
+                // Swap temp[0] with another random card to further randomize
+                Card anotherTempCard = temp[randomIndex];
+                temp[randomIndex] = temp[0];
+                temp[0] = anotherTempCard;
+                // If temp[0] is still the same or it's color is still false
+                // then it does another randomization and swaps temp[0]
+                // with another randomized card
+                if (temp[0] == tempCard || temp[0].getCardColor() == false)
+                {
+                    // Swap temp[0] with another random card to further randomize
+                    int anotherIndex = (int)(Math.random() * temp.length);
+                    anotherTempCard = temp[anotherIndex];
+                    temp[anotherIndex] = temp[0];
+                    temp[0] = anotherTempCard;
+                }
+            }
+            else if (temp[0].getCardColor() == false)
+            {
+                // Swap temp[0] with another random card to further randomize
+                int anotherIndex = (int)(Math.random() * temp.length);
+                Card anotherSwap = temp[0];
+                temp[0] = temp[anotherIndex];
+                temp[anotherIndex] = anotherSwap;
+            }
+        }
+        return temp;
+    }
 }
