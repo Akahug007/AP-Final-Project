@@ -40,4 +40,15 @@ public class Person
     {
         this.totalBalance += balance;
     }
+    
+    // toString method for this class
+    public String toString()
+    {
+        // Creates a string that is formatted by the programmer
+        // Then stored into output String object
+        String output = "Player " + getName() + "\n" +
+                        "Here is your balance" + getBalance();
+        // Returns the output String object
+        return output;
+    }
 }

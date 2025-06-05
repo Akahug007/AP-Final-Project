@@ -3,8 +3,6 @@
 // Fix the text code first
 
 package Cards;
-
-// Interface for the Card class
 interface CardInterface
 {
     public int getCardValue();
@@ -23,14 +21,17 @@ public class Card implements CardInterface
 
     // Instance Variables
     private int theCardNumber = 0;
+    private boolean isCardColorBlack = false;
     private String CardName = "";
+    // private String CardTypeLocation = "";
+    private String CardColor = "";
 
     // Setter methods:
-    // Sets the card number with a random number between 15 and 2
+    // Sets the card number with a random number between 14 and 2
     public void setCardValue()
     {
-        // cardNumber gets declared and initialized with a random number between 15 and 2
-        int cardNumber = (int)(Math.random()*13 + 2);
+        // cardNumber gets declared and initialized with a random number between 1 and 43
+        int cardNumber = (int)(Math.random()*12 + 1);
 
         // theCardNumber is set to cardNumber
         theCardNumber = cardNumber;
@@ -45,6 +46,10 @@ public class Card implements CardInterface
         // Switch statement to set the card name based on the card number
         switch(cardNumber)
         {
+            case 1:
+                int randomCard = (int)(Math.random() * 12 + 2);
+                setCardName(randomCard);
+                break;
             case 2:
                 CardName = "Two";
                 break;
@@ -84,9 +89,9 @@ public class Card implements CardInterface
             case 14:
                 CardName = "Ace";
                 break;
-            case 15:
-                CardName = "Joker";
-                break;
+            // case 15:
+            //     CardName = "Joker";
+            //     break;
             default:
                 theCardNumber = 2;    
                 CardName = "Two";
@@ -105,6 +110,21 @@ public class Card implements CardInterface
     {
         return CardName;
     }
+    // Access method that returns the card's boolean variable
+    public boolean getCardColor()
+    {
+        return isCardColorBlack;
+    }
+    // Accessor method that returns the card location/filepath
+    // public String getCardLocation()
+    // {
+    //     return CardTypeLocation;
+    // }
+    // // Mutator method that sets the card filepath
+    // public String setCardLocation()
+    // {
+    //     return CardTypeLocation;
+    // }
     
 
 }

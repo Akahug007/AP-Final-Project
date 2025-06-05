@@ -1,3 +1,6 @@
+// Documentation
+// Add GUI
+// Add 2D Array or Polymorphism
 package Main;
 
 // Imports classes from the Players package
@@ -16,7 +19,7 @@ public class CasinoWarGame
     {
         // Instantiating the Scanner class
         Scanner input = new Scanner(System.in);
-
+        
         // Program asks the user to enter an integer value for the size of a deck
         System.out.println("Enter a number of the decks: 1, 2, 4, or 6");
 
