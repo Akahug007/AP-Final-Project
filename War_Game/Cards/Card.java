@@ -21,10 +21,16 @@ public class Card implements CardInterface
 
     // Instance Variables
     private int theCardNumber = 0;
-    private boolean isCardColorBlack = false;
+    private boolean isCardColorRed = true;
     private String CardName = "";
-    // private String CardTypeLocation = "";
     private String CardColor = "";
+
+    public Card()
+    {
+        CardName = "";
+        theCardNumber = 0;
+        isCardColorRed = true;
+    }
 
     // Setter methods:
     // Sets the card number with a random number between 14 and 2
@@ -111,9 +117,9 @@ public class Card implements CardInterface
         return CardName;
     }
     // Access method that returns the card's boolean variable
-    public boolean getCardColor()
+    public String getCardColor()
     {
-        return isCardColorBlack;
+        return CardColor;
     }
     // Accessor method that returns the card location/filepath
     // public String getCardLocation()

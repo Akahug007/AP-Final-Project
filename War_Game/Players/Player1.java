@@ -4,91 +4,105 @@ package Players;
 // Card class is in the Cards package
 import Cards.Card; 
 
-// Player1 interface
-interface PlayerInterface
-{
-    public Card[] getCardDeck();
-    public void setCardDeck(int deckSize);
-}
-
 // Player1 class, where it is a subclass of the Person class
 // Object class for the player/user
-public class Player1 extends Person implements PlayerInterface
+public class Player1 extends Person
 {
-	// Declares an array of integers to represent the card deck
-    private Card[] cardDeck;
-
     // Constructor of Player1 class
-    public Player1(String playerName) 
+    public Player1(String playerName, int theBalance, boolean player) 
     {
-		super(playerName);
+		super(playerName, theBalance, player);
 	}
-    
-    // Method to get the card deck
-    public Card[] getCardDeck()
+    // Constructor of Player1 class
+    public Player1(String playerName, boolean player) 
     {
-        return cardDeck;
-    }
-
-    // Method to set the card deck
-    public void setCardDeck(int deckSize)
-    {
-        // Instantiates the cardDeck array with the size of the deck
-        cardDeck = new Card[deckSize];
-        
-        // Uses a for loop that iterates through half of the deck size
-        // Where it instantiates a new card object and sets the card value
-        for (int i = 0; i < (int)(deckSize/2); i++)
-        {
-            cardDeck[i] = new Card();
-            cardDeck[i].setCardValue();
-        }
-    }
+		super(playerName, player);
+	}
 
     // Shuffles the cards around
     // possibly a brain method
-    public Card[] shuffleCards()
+    public Card[] shuffleRedCards(Card[] test)
     {
         // Array of Cards
-        Card[] temp = getCardDeck();
+        Card[] temp = test;
+        
         // Temporary Card object
         Card tempCard = temp[0];
-        // Loop to randomize the entire temporary array of cards
-        for (int i = 0; i < temp.length; i++)
+        
+        // Conditional to check if first letter of the first element's 
+        // name from temp contains the letter B
+        if (temp[0].getCardColor().equalsIgnoreCase("B"))
         {
-            int randomIndex = (int)(Math.random() * temp.length);
-            // Swap temp[i] with temp[randomIndex]
-            Card swap = temp[i];
-            temp[i] = temp[randomIndex];
-            temp[randomIndex] = swap;
-
-            if (temp[0] == tempCard && temp[0].getCardColor() == false)
+            
+        }
+        // Checking if temp is null or entirely contains nulls
+        else if (temp == null || checkArrayContainAllNull(temp) || checkArrayContainAllNull(temp, null))
+        {
+            temp = null;
+        }
+        // If they are not valid, then else, an entire algorithm happens
+        else
+        {
+            // Initializes a boolean variable called fixed
+            boolean fixed = false;
+            // If the card at index 0 is false then
+            // a shuffling algorithm starts
+            if (temp[0].getCardColor().substring(0,1).equalsIgnoreCase("R")) 
             {
-                // Swap temp[0] with another random card to further randomize
-                Card anotherTempCard = temp[randomIndex];
-                temp[randomIndex] = temp[0];
-                temp[0] = anotherTempCard;
-                // If temp[0] is still the same or it's color is still false
-                // then it does another randomization and swaps temp[0]
-                // with another randomized card
-                if (temp[0] == tempCard || temp[0].getCardColor() == false)
+                // Initializes an int variable called index
+                int index = 1;
+                // While index is less than the length of temp or fixed is true
+                // then a conditional is used
+                while ((index < temp.length && !fixed) || temp[0].getCardColor().equalsIgnoreCase("B"))
                 {
-                    // Swap temp[0] with another random card to further randomize
-                    int anotherIndex = (int)(Math.random() * temp.length);
-                    anotherTempCard = temp[anotherIndex];
-                    temp[anotherIndex] = temp[0];
-                    temp[0] = anotherTempCard;
+                    // Conditional that checks if the selected element's name contains the letter R
+                    if (temp[index].getCardColor().substring(0,1).equalsIgnoreCase("B")) 
+                    {
+                        // Found a suitable card, swap it with temp[0]
+                        Card tempSwap = tempCard;
+                        tempCard = temp[index];
+                        temp[index] = tempSwap;
+                        // Fixed gets assigned with true
+                        fixed = true;
+                    }
+                    index++;
                 }
-            }
-            else if (temp[0].getCardColor() == false)
-            {
-                // Swap temp[0] with another random card to further randomize
-                int anotherIndex = (int)(Math.random() * temp.length);
-                Card anotherSwap = temp[0];
-                temp[0] = temp[anotherIndex];
-                temp[anotherIndex] = anotherSwap;
             }
         }
         return temp;
+    }
+    // Method to check if a card array entirely contains null values only
+    public boolean checkArrayContainAllNull(Card[] temp)
+    {
+        // Array of Cards
+        Card[] aCardArray = temp;
+        boolean output = true;
+        int index = 0;
+        while (output)
+        {
+            if (aCardArray[index] != null)
+            {
+                output = false;
+            }
+            index++;
+        }
+        return output;
+    }
+    // Overloaded method
+    public boolean checkArrayContainAllNull(Card[] temp, Object obj)
+    {
+        // Array of Cards
+        Card[] aCardArray = temp;
+        boolean output = true;
+        int index = 0;
+        while (output)
+        {
+            if (aCardArray[index] != obj)
+            {
+                output = false;
+            }
+            index++;
+        }
+        return output;
     }
 }

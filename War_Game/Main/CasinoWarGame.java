@@ -1,13 +1,18 @@
 // Documentation
 // Add GUI
-// Add 2D Array or Polymorphism
+// Add 2D Array of cards instead of size of deck
+// Use polymorphism as for:
+    // Whether the player wants to add shuffling or not
+    // if shuffling is wanted: Player1 is instantiated like this: Player1 obj = new Player1()
+    // if not wanted: Player1 is instantiated like this: Player1 obj = new Person()
 package Main;
 
 // Imports classes from the Players package
 import Cards.Card;
 import Players.Dealer;
 import Players.Player1;
-import java.util.*;
+import java.util.Scanner;
+import java.util.ArrayList;
 
 // This program is about Casino War
 // The game is played with a chosen number of decks with 52 cards each
@@ -19,43 +24,130 @@ public class CasinoWarGame
     {
         // Instantiating the Scanner class
         Scanner input = new Scanner(System.in);
+
+        // Creates a string variable called getNumberString
+        String getNumberString = "";
+
+        // Creates a 2D array of cards where each row is a deck
+        ArrayList<Card> cardList = new ArrayList<>();
         
         // Program asks the user to enter an integer value for the size of a deck
-        System.out.println("Enter a number of the decks: 1, 2, 4, or 6");
+        System.out.println("Enter a number of decks: 2, 4, or any even number");
 
-        // Stores the user's input in the variable sizeOfDeck
-        int sizeOfDeck = input.nextInt();
+        // getNumberString gets a string input from the user
+        getNumberString = input.nextLine();
 
-        // Conditional statement to check if the size of the deck is 1 or even
-        if ((sizeOfDeck == 1 || (sizeOfDeck % 2 == 0))  && sizeOfDeck <= 6)
+        // Initializes variable numberOfDeck with 0
+        int numberOfDeck = 0;
+
+        // Exception handling
+        try 
         {
-            sizeOfDeck *= 52;
+            // playerBetAmount gets the parseInt of getNumber
+            numberOfDeck = (int)(Integer.parseInt(getNumberString));
         }
-        else
+        catch (NumberFormatException e)
         {
-            sizeOfDeck = 52;
+            // If the string does not contain a number, then playerBetAmount gets integer 2
+            // and the exception is printed
+            numberOfDeck = 2;
+            System.out.println("Exception: " + e.getMessage());
         }
-
-        System.out.println("Size of the deck: " + sizeOfDeck);
         
-        // Adds a buffer to the scanner
-        input.nextLine();
-        System.out.println();
+        // If the numberOfDeck is not even then
+        // numberOfDeck should stay the same
+        if (numberOfDeck % 2 != 0)
+        {
+            System.out.println("Error: number of the decks is an odd number, initializing size to 2");
+            numberOfDeck = 2;
+        }
+        System.out.println("numberOfDeck: " + numberOfDeck);
 
+        // Program asks the user to enter an integer value for the size of a deck
+        System.out.println("Enter the size of a deck(Even numbers only, larger than 8)");
+
+        // getNumberString gets a string input from the user
+        getNumberString = input.nextLine();
+
+        // Initializes variable sizeOfDeck with 0
+        int sizeOfDeck = 0;
+
+        // Exception handling
+        try 
+        {
+            // playerBetAmount gets the parseInt of getNumber
+            sizeOfDeck = (int)(Integer.parseInt(getNumberString));
+        }
+        catch (NumberFormatException e)
+        {
+            // If the string does not contain a number, then playerBetAmount gets integer 2
+            // and the exception is printed
+            sizeOfDeck = 10;
+            System.out.println("Exception: " + e.getMessage());
+        }
+
+        // If the numberOfDeck is not even then
+        // numberOfDeck should stay the same
+        if (sizeOfDeck % 2 != 0 || sizeOfDeck <= 8)
+        {
+            System.out.println("Error: size of the decks is a weird number, initializing size to 10");
+            sizeOfDeck = 10;
+        }
+        System.out.println("sizeOfDeck: " + sizeOfDeck);
+
+        // Initialize each deck with Card objects
+        for (int i = 0; i < numberOfDeck; i++)
+        {
+            for (int j = 0; j < sizeOfDeck; j++) 
+            {
+                // You may need to adjust the constructor parameters for Card as needed
+                // Replace the following line with the correct Card constructor parameters if needed
+                if (j <= sizeOfDeck/2)
+                {
+                    // Adds a new Card to the arrayList
+                    cardList.add(new Card());
+                }
+                else
+                {
+                    // Adds null to the arrayList
+                    cardList.add(null);
+                }
+            }
+        }
+
+        System.out.println();
+        
         // Program asks the user to enter a name for the player
         System.out.println("Enter your name: ");
 
         // Stores the user's input in the variable playerName
         String playerName = input.nextLine();
+        // Conditional that looks into the string
+        // From the output, you can tell the program is also evil
+        if (playerName.substring(0, 1).equalsIgnoreCase("H"))
+        {
+            System.out.println("I don't like that name >:)");
+        }
+        else if (playerName.indexOf("H") > -1 || playerName.indexOf("h") > -1)
+        {
+            System.out.println("That name is alright");
+        }
+        else if (playerName.length() > 10)
+        {
+            System.out.println("That name is toooooooooooooooooooooooooooooooo(2) loooooooooooooooooooooooooooooooooooong");
+        }
+        else
+        {
+            System.out.println("cool name I guess");
+        }
+        
         System.out.println();
 
         // Instantiates the Player1 class with the name thePlayer
-        Player1 thePlayer = new Player1(playerName);
-        thePlayer.setCardDeck(sizeOfDeck);
+        Player1 thePlayer = new Player1(playerName, true);
 
         // Instantiates the Dealer class with the name theDealer
-        Dealer theDealer = new Dealer("Dealer");
-        theDealer.setCardDeck(sizeOfDeck);
+        Dealer theDealer = new Dealer("The Dealer", false);
 
         // Boolean variable for the playAgain option
         boolean playAgain = true;
@@ -69,19 +161,48 @@ public class CasinoWarGame
         System.out.println();
         System.out.println("Welcome to Casino War!");
 
+        // int variable for index
+        int indexOfCardArray = 0;
+
         // Game loop
         while (playAgain)
         {
             boolean gameLoop = true;
+
+            // Program informs user of what deck they get and what deck the dealer gets
+            System.out.println(thePlayer.getName() + " gets deck #" + (indexOfCardArray + 1));
+            System.out.println(theDealer.getName() + " gets deck #" + (indexOfCardArray + 2));
+
+            // Program assigns the deck to the player and dealer
+            thePlayer.setCardDeck();
+            theDealer.setCardDeck();
+            indexOfCardArray++;
+
             // Program informs user of the player's bet amount
             System.out.println();
             System.out.println("Your current balance is: " + thePlayer.getBalance());
                 
             // Program asks the user to enter a bet amount
             System.out.println("Enter a bet amount: ");
+
+            getNumberString = input.nextLine();
             
             // Temporary variable to store the user's input
-            int playerBetAmount = input.nextInt();
+            int playerBetAmount = 0;
+
+            // Exception handling
+            try 
+            {
+                // playerBetAmount gets the parseInt of getNumber
+                playerBetAmount = Integer.parseInt(getNumberString);
+            }
+            catch (NumberFormatException e)
+            {
+                // If the string does not contain a number, then playerBetAmount gets integer 2
+                // and the exception is printed
+                playerBetAmount = 2;
+                System.out.println(e.getMessage());
+            }
 
             // Temporary variable to store the dealer's bet amount
             int dealerBetAmount = playerBetAmount;
@@ -91,6 +212,11 @@ public class CasinoWarGame
                 // Boolean variables
                 boolean playerWins = false;
                 boolean dealerWins = false;
+
+                 // Example: Print the player's deck using Arrays.toString()
+                System.out.println("Player's deck: " + Arrays.toString(thePlayer.getCardDeck()));
+                // Example: Print the dealer's deck using Arrays.toString()
+                System.out.println("Dealer's deck: " + Arrays.toString(theDealer.getCardDeck()));
 
                 // Adds a buffer to the scanner
                 input.nextLine();
@@ -167,6 +293,9 @@ public class CasinoWarGame
                     moveElements(dealerTempDeck);
                     moveElements(playerTempDeck);
                 }
+                // Program informs user of what deck they get and what deck the dealer gets
+                System.out.println(thePlayer.getName() + " gets deck #" + (indexOfCardArray + 1));
+                System.out.println(theDealer.getName() + " gets deck #" + (indexOfCardArray + 2));
                 shuffleArray(playerTempDeck, dealerTempDeck);
                 System.out.println();
 
@@ -203,6 +332,9 @@ public class CasinoWarGame
                     theDealer.addBalance(playerBetAmount);
                     gameLoop = false;
                 }
+                // Program informs user of what deck they get and what deck the dealer gets
+                System.out.println(thePlayer.getName() + " gets deck #" + (indexOfCardArray + 1));
+                System.out.println(theDealer.getName() + " gets deck #" + (indexOfCardArray + 2));
             }
             // Conditional that checks the game can be played again if both the player and dealer still have money
             if (thePlayer.getBalance() > 0 && theDealer.getBalance() > 0)
@@ -214,8 +346,6 @@ public class CasinoWarGame
                 if (redo.equalsIgnoreCase("Yes"))
                 {
                     playAgain = true;
-                    thePlayer.setCardDeck(sizeOfDeck);
-                    theDealer.setCardDeck(sizeOfDeck);
                 }
                 // If false, then the game stops
                 else
