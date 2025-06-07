@@ -336,30 +336,30 @@ public class CasinoWarGame
         }
         System.out.println();       
     }
-    // Method to shuffle the array
-    public static void shuffleArray(Card[] arr1, Card[] arr2)
-    {
-        Card temp1;
-        Card temp2;
-        // 1st Array Shuffle
-        for (int i = 0; i < getLastIndex(arr1); i++)
-        {
-            int randomNumber = (int)(Math.random()*getLastIndex(arr1));
-            temp1 = arr1[i];
-            temp2 = arr1[randomNumber];
-            arr1[randomNumber] = temp1;
-            arr1[i] = temp2;
-        }
-        // 2nd Array Shuffle
-        for (int i = 0; i < getLastIndex(arr2); i++)
-        {
-            int randomNumber = (int)(Math.random()*getLastIndex(arr2));
-            temp1 = arr2[i];
-            temp2 = arr2[randomNumber];
-            arr2[randomNumber] = temp1;
-            arr2[i] = temp2;
-        }
-    }
+    // // Method to shuffle the array
+    // public static void shuffleArray(Card[] arr1, Card[] arr2)
+    // {
+    //     Card temp1;
+    //     Card temp2;
+    //     // 1st Array Shuffle
+    //     for (int i = 0; i < getLastIndex(arr1); i++)
+    //     {
+    //         int randomNumber = (int)(Math.random()*getLastIndex(arr1));
+    //         temp1 = arr1[i];
+    //         temp2 = arr1[randomNumber];
+    //         arr1[randomNumber] = temp1;
+    //         arr1[i] = temp2;
+    //     }
+    //     // 2nd Array Shuffle
+    //     for (int i = 0; i < getLastIndex(arr2); i++)
+    //     {
+    //         int randomNumber = (int)(Math.random()*getLastIndex(arr2));
+    //         temp1 = arr2[i];
+    //         temp2 = arr2[randomNumber];
+    //         arr2[randomNumber] = temp1;
+    //         arr2[i] = temp2;
+    //     }
+    // }
     // War Method
     public static void startWar(Card[] arr1, Card[] arr2)
     {
@@ -405,212 +405,3 @@ public class CasinoWarGame
         }
     }
 }
-
-/* 
-package Main;
-
-import Players.Dealer;
-import Players.Player1;
-import Cards.Card;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-
-public class CasinoWarGameGUI extends JFrame {
-    private JTextField deckInput, nameInput, betInput;
-    private JButton startButton, betButton, flipButton, continueButton, playAgainButton;
-    private JLabel messageLabel, balanceLabel, playerCardLabel, dealerCardLabel;
-    private JPanel mainPanel;
-
-    private Player1 thePlayer;
-    private Dealer theDealer;
-    private int sizeOfDeck;
-    private int playerBetAmount, dealerBetAmount;
-
-    public CasinoWarGameGUI() {
-        setTitle("Casino War Game");
-        setSize(500, 400);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(0, 1));
-
-        messageLabel = new JLabel("Enter number of decks (1, 2, 4, or 6):");
-        deckInput = new JTextField();
-        startButton = new JButton("Start Game");
-
-        mainPanel.add(messageLabel);
-        mainPanel.add(deckInput);
-        mainPanel.add(startButton);
-
-        add(mainPanel);
-
-        startButton.addActionListener(e -> setupPlayer());
-    }
-
-    private void setupPlayer() {
-        try {
-            int decks = Integer.parseInt(deckInput.getText().trim());
-            if ((decks == 1 || decks % 2 == 0) && decks <= 6) {
-                sizeOfDeck = decks * 52;
-            } else {
-                sizeOfDeck = 52;
-            }
-            mainPanel.removeAll();
-            messageLabel.setText("Enter your name:");
-            nameInput = new JTextField();
-            JButton nameButton = new JButton("Continue");
-            mainPanel.add(messageLabel);
-            mainPanel.add(nameInput);
-            mainPanel.add(nameButton);
-            mainPanel.revalidate();
-            mainPanel.repaint();
-
-            nameButton.addActionListener(e -> startGame());
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid number.");
-        }
-    }
-
-    private void startGame() {
-        String playerName = nameInput.getText().trim();
-        thePlayer = new Player1(playerName);
-        thePlayer.setCardDeck(sizeOfDeck);
-        theDealer = new Dealer("Dealer");
-        theDealer.setCardDeck(sizeOfDeck);
-
-        mainPanel.removeAll();
-        messageLabel.setText("Welcome to Casino War, " + playerName + "!");
-        balanceLabel = new JLabel("Your current balance is: " + thePlayer.getBalance());
-        betInput = new JTextField();
-        betButton = new JButton("Place Bet");
-
-        mainPanel.add(messageLabel);
-        mainPanel.add(balanceLabel);
-        mainPanel.add(new JLabel("Enter a bet amount:"));
-        mainPanel.add(betInput);
-        mainPanel.add(betButton);
-        mainPanel.revalidate();
-        mainPanel.repaint();
-
-        betButton.addActionListener(e -> placeBet());
-    }
-
-    private void placeBet() {
-        try {
-            playerBetAmount = Integer.parseInt(betInput.getText().trim());
-            dealerBetAmount = playerBetAmount;
-
-            if (playerBetAmount > thePlayer.getBalance()) {
-                JOptionPane.showMessageDialog(this, "Your bet is greater than your balance. Bets split in half.");
-                playerBetAmount /= 2;
-                dealerBetAmount = playerBetAmount;
-            } else if (dealerBetAmount > theDealer.getBalance()) {
-                JOptionPane.showMessageDialog(this, "Your bet is greater than Dealer's balance. Bets split in half.");
-                dealerBetAmount /= 2;
-                playerBetAmount = dealerBetAmount;
-            }
-
-            mainPanel.removeAll();
-            flipButton = new JButton("Flip Card");
-            mainPanel.add(new JLabel("Ready to flip your card?"));
-            mainPanel.add(flipButton);
-            mainPanel.revalidate();
-            mainPanel.repaint();
-
-            flipButton.addActionListener(e -> flipCards());
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid bet amount.");
-        }
-    }
-
-    private void flipCards() {
-        Card[] playerTempDeck = thePlayer.getCardDeck();
-        Card[] dealerTempDeck = theDealer.getCardDeck();
-
-        if (playerTempDeck[0] == null || dealerTempDeck[0] == null) {
-            moveElements(dealerTempDeck);
-            moveElements(playerTempDeck);
-        }
-
-        mainPanel.removeAll();
-        playerCardLabel = new JLabel("You drew: " + playerTempDeck[0].getCardName());
-        dealerCardLabel = new JLabel("Dealer drew: " + dealerTempDeck[0].getCardName());
-        continueButton = new JButton("Continue");
-
-        mainPanel.add(playerCardLabel);
-        mainPanel.add(dealerCardLabel);
-        mainPanel.add(continueButton);
-        mainPanel.revalidate();
-        mainPanel.repaint();
-
-        continueButton.addActionListener(e -> resolveRound(playerTempDeck, dealerTempDeck));
-    }
-
-    private void resolveRound(Card[] playerTempDeck, Card[] dealerTempDeck) {
-        String result;
-        if (playerTempDeck[0].getCardValue() > dealerTempDeck[0].getCardValue()) {
-            result = "You win the round!";
-            playerTempDeck[getFirstEmptyIndex(playerTempDeck)] = dealerTempDeck[0];
-            playerTempDeck[getFirstEmptyIndex(playerTempDeck)] = playerTempDeck[0];
-            moveElements(dealerTempDeck);
-            moveElements(playerTempDeck);
-            thePlayer.addBalance(dealerBetAmount);
-            theDealer.deductBalance(dealerBetAmount);
-        } else if (playerTempDeck[0].getCardValue() == dealerTempDeck[0].getCardValue()) {
-            result = "WAR! (Not implemented in GUI yet)";
-            // You can implement the war logic with more GUI steps here.
-        } else {
-            result = "You lost the round!";
-            dealerTempDeck[getFirstEmptyIndex(dealerTempDeck)] = playerTempDeck[0];
-            dealerTempDeck[getFirstEmptyIndex(dealerTempDeck)] = dealerTempDeck[0];
-            moveElements(dealerTempDeck);
-            moveElements(playerTempDeck);
-            thePlayer.deductBalance(playerBetAmount);
-            theDealer.addBalance(playerBetAmount);
-        }
-
-        mainPanel.removeAll();
-        mainPanel.add(new JLabel(result));
-        playAgainButton = new JButton("Play Again");
-        mainPanel.add(playAgainButton);
-        mainPanel.revalidate();
-        mainPanel.repaint();
-
-        playAgainButton.addActionListener(e -> startGame());
-    }
-
-    // --- Utility methods (same as your original code) ---
-    public static void moveElements(Card[] arr) {
-        for (int i = 1; i < arr.length; i++) {
-            arr[i - 1] = arr[i];
-        }
-    }
-    public static int getFirstEmptyIndex(Card[] arr) {
-        int index = 0;
-        for (int i = 1; i < arr.length; i++) {
-            if ((arr[i] == null) && arr[i - 1] != null) {
-                index = i;
-                i = arr.length;
-            }
-        }
-        return index;
-    }
-    // ... (add other utility methods as needed)
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new CasinoWarGameGUI().setVisible(true);
-        });
-    }
-}
-
-
-
-
-
-
-
-*/
