@@ -6,7 +6,7 @@ The program is similarly based on a real-life game called Casino-War game.
 - Though the game is modified in the program
 It features fake currency that can be used to play games called War.
 
-- How to play the game:
+How to play the game:
   In real life:
     - Casino War game starts with a deck of 52 cards shuffled
     - Players simultaneously flip the top card of their deck
@@ -33,14 +33,14 @@ It features fake currency that can be used to play games called War.
   - Be warned that user inputs are case sensitive
     - The program is made to have multiple choice questions or true/false questions
 
-Special Features:
-    One of the special features of the game would be the addition of cheating in the game
+- Special Features:
+  - One of the special features of the game would be the addition of cheating in the game
   This is done through having the cheater be able to have the highest value cards in the
   their entire deck.
   
-  For programmers:
-    Another special feature would be the use of exception handling, this allows the program
+  - For programmers:
+    - Another special feature would be the use of exception handling, this allows the program
   to run correctly and in alternative methods if the user inputs an unacceptable answer
   or if the functionality is not performing as expected.
-    Lastly, the program also features interfaces which allowed for classes to require 
+    - Lastly, the program also features interfaces which allowed for classes to require 
     certain methods and variables.
