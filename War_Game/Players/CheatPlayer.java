@@ -3,145 +3,163 @@ package Players;
 
 // Card class is in the Cards package
 import Cards.Card;
+import Main.CasinoWarGame;
 
 //  Imports the ArrayList library
 import java.util.ArrayList;
 
-// Imports Person from Players library
-import Players.Person;
-
 // Player1 class, where it is a subclass of the Person class
 // Object class for the player/user
+// CheatPlayer class extends the Person class and represents a player that can cheat in the game.
 public class CheatPlayer extends Person
 {
-    // Constructor of Player1 class
+    // Constructor for CheatPlayer that takes playerName, theBalance, and player as parameters.
     public CheatPlayer(String playerName, int theBalance, boolean player) 
     {
-		super(playerName, theBalance, player);
-	}
+        super(playerName, theBalance, player);
+    }
     
-    // Constructor of Player1 class
+    // Constructor for CheatPlayer that takes playerName and player as parameters.
     public CheatPlayer(String playerName, boolean player) 
     {
-		super(playerName, player);
-	}
+        super(playerName, player);
+    }
 
-    // Returns the boolean variable isPlayer
+    // Overrides the getPlayer method to always return true, indicating this is a player.
     @Override
     public boolean getPlayer()
     {
         return true;
     }
 
-    // Shuffles the cards around
-    // possibly a brain method
-    public ArrayList<Card> shuffleRedCards(ArrayList<Card> test)
+    // Shuffles only the red cards in the given deck.
+    // Uses String methods in if, loop, parameter, and return type.
+    public ArrayList<Card> shuffleHalfRedCards(ArrayList<Card> deck) 
     {
-        // ArrayList of Cards
-        ArrayList<Card> temp = test;
+        // Initializes tempCardDeck to deck
+        ArrayList<Card> tempCardDeck = deck;
 
-        // Temporary Card object
-        Card tempCard = temp.get(0);
+        // Boolean variable that controls a while loop
+        boolean loopControl1 = true;
 
-        // Conditional to check if first letter of the first element's 
-        // color from temp contains the letter B
-        if (temp.get(0).getCardColor().equalsIgnoreCase("B"))
+        // Checks if the deck is null or empty and prints a message if so.
+        if (deck == null || deck.isEmpty()) 
         {
-
+            System.out.println("Card Deck contains null");
         }
-        // Checking if temp is null or entirely contains nulls
-        else if (temp == null || temp.isEmpty() || checkArrayContainAllNull(temp.toArray(new Card[0])) || checkArrayContainAllNull(temp.toArray(new Card[0]), null))
-        {
-            temp = null;
-        }
-        // If they are not valid, then else, an entire algorithm happens
         else
         {
-            // Initializes a boolean variable called fixed
-            boolean fixed = false;
-            // If the card at index 0 is false then
-            // a shuffling algorithm starts
-            if (temp.get(0).getCardColor().substring(0,1).equalsIgnoreCase("R")) 
+            // Loops while the first card is red and loopControl1 is true.
+            while (loopControl1 && tempCardDeck.get(0).getCardColor().substring(0, 1).equalsIgnoreCase("R"))
             {
-                // Initializes an int variable called index
-                int index = 1;
-                // While index is less than the size of temp or fixed is true
-                // then a conditional is used
-                while ((index < temp.size() && !fixed) || temp.get(0).getCardColor().equalsIgnoreCase("B"))
+                // Generates a random index within the total size of the deck.
+                int randomIndex = (int)(Math.random()*CasinoWarGame.getTotalSize());
+                // Checks if the card at the random index is null.
+                if (tempCardDeck.get(randomIndex) == null)
                 {
-                    // Conditional that checks if the selected element's color contains the letter B
-                    if (temp.get(index).getCardColor().substring(0,1).equalsIgnoreCase("B")) 
+                    loopControl1 = false;
+                }
+                else
+                {
+                    // Checks if the first card is red.
+                    if (tempCardDeck.get(0).getCardColor().substring(0, 1).equalsIgnoreCase("R"))
                     {
-                        // Found a suitable card, swap it with temp.get(0)
-                        Card tempSwap = tempCard;
-                        tempCard = temp.get(index);
-                        temp.set(index, tempSwap);
-                        // Fixed gets assigned with true
-                        fixed = true;
+                        // Swaps the first card with the card at the random index.
+                        Card temp1 = tempCardDeck.get(randomIndex);
+                        Card temp2 = tempCardDeck.get(0);
+                        tempCardDeck.set(0, temp1);
+                        tempCardDeck.set(randomIndex, temp2);
                     }
-                    index++;
+                    else
+                    {
+                        // Ends the loop if the first card is not red.
+                        loopControl1 = false;
+                    }
                 }
             }
         }
-        return temp;
+
+        // Returns the shuffled deck.
+        return tempCardDeck;
     }
-    // Method to check if a card array entirely contains null values only
+
+    // Method to check if a card array entirely contains null values only.
     public boolean checkArrayContainAllNull(Card[] temp)
     {
-        // Array of Cards
+        // Array of Cards assigned from parameter.
         Card[] aCardArray = temp;
+        // Output flag to indicate if all elements are null.
         boolean output = true;
+        // Index for iterating through the array.
         int index = 0;
+        // Loops through the array while output is true.
         while (output)
         {
+            // If a non-null card is found, set output to false.
             if (aCardArray[index] != null)
             {
                 output = false;
             }
+            // Increment the index.
             index++;
         }
+        // Returns true if all elements are null, false otherwise.
         return output;
     }
-    // Overloaded method
+
+    // Overloaded method to check if a card array contains only the specified object.
     public boolean checkArrayContainAllNull(Card[] temp, Object obj)
     {
-        // Array of Cards
+        // Array of Cards assigned from parameter.
         Card[] aCardArray = temp;
+        // Output flag to indicate if all elements match the object.
         boolean output = true;
+        // Index for iterating through the array.
         int index = 0;
+        // Loops through the array while output is true.
         while (output)
         {
+            // If an element does not match the object, set output to false.
             if (aCardArray[index] != obj)
             {
                 output = false;
             }
+            // Increment the index.
             index++;
         }
+        // Returns true if all elements match the object, false otherwise.
         return output;
     }
 
-    // Sets the card deck to half of it being kings
-    public void setCardCheatDeck()
-    {        
-        // Initialize each deck with Card objects
-        for (int j = 0; j < Person.getTotalDeckSize(); j++) 
+    // Method to set the card deck with a specified number of decks, size, and color.
+    @Override
+    public void setCardDeck(int numDeck, int sizeDeck, String color)
+    {
+        // Assigns totalDeckSize with numDeck times the sizeDeck.
+        totalDeckSize = numDeck * sizeDeck;
+        
+        // Initialize each deck with Card objects or null.
+        for (int i = 0; i < totalDeckSize; i++)
         {
-            // You may need to adjust the constructor parameters for Card as needed
-            // Replace the following line with the correct Card constructor parameters if needed
-            if (j <= Person.getTotalDeckSize()/2)
+            // Adds a new Card to the arrayList if within half the deck size.
+            if (i <= sizeDeck/2)
             {
-                // Adds a new Card to the arrayList
+                // Adds a new Card to the arrayList.
                 getCardDeck().add(new Card());
-
-                // getCardDeck method is called with a get method called to use the
-                // setCardValue method
-                getCardDeck().get(j).setCardValue(14);
+                // Sets the card value and color.
+                getCardDeck().get(i).setCardValue(14, color);
             }
             else
             {
-                // Adds null to the arrayList
+                // Adds null to the arrayList.
                 getCardDeck().add(null);
             }
         }
+    }
+
+    // Returns a reference to the card deck.
+    public ArrayList<Card> getCardDeckRef()
+    {
+        return getCardDeck();
     }
 }

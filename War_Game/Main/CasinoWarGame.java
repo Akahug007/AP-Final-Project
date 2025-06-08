@@ -2,9 +2,9 @@
 // Add GUI
 // Add 2D Array of cards instead of size of deck
 // Use polymorphism as for:
-    // Whether the player wants to add shuffling or not
-    // if shuffling is wanted: Player1 is instantiated like this: Player1 obj = new Player1()
-    // if not wanted: Player1 is instantiated like this: Player1 obj = new Person()
+// Whether the player wants to add shuffling or not
+// if shuffling is wanted: Player1 is instantiated like this: Player1 obj = new Player1()
+// if not wanted: Player1 is instantiated like this: Player1 obj = new Person()
 package Main;
 
 // Imports classes from the Players package
@@ -20,118 +20,110 @@ import java.util.Arrays;
 // This program is about Casino War
 // The game is played with a chosen number of decks with 52 cards each
 // This is the driver class where all code executions will happen
+// The CasinoWarGame class represents the main entry point for the Casino War card game application.
 public class CasinoWarGame 
 {
-    // This is the main method where all java code executions will happen
+    // Static integer variable to store the total size of all decks combined.
+    private static int totalDeckSize = 0;
+    
+    // The main method where the execution of the Casino War game begins.
     public static void main(String[] args) 
     {
-        // Instantiating the Scanner class
+        // Instantiates the Scanner class to receive user input from the console.
         Scanner input = new Scanner(System.in);
 
-        // Creates a string variables called getNumberString and getYesNoString1
+        // String variable to store user input for numbers.
         String getNumberString = "";
+        // String variable to store user input for yes/no questions (shuffling).
         String getYesNoString1 = "";
+        // String variable to store user input for yes/no questions (cheating).
         String getYesNoString2 = "";
 
-        // Creates a boolean variable called enableShuffling
+        // Boolean variable to determine if shuffling is enabled.
         boolean enableShuffling = false;
+        // Boolean variable to determine if cheating is enabled.
+        boolean enableCheating = false;
 
-        // Creates a 2D array of cards where each row is a deck
+        // ArrayList to store the cards for the game (all decks).
         ArrayList<Card> cardList = new ArrayList<>();
+
+        // Temporary ArrayList to store a reference to the player's cards.
+        ArrayList<Card> tempPlayerList = null;
         
-        // Program asks the user to enter an integer value for the size of a deck
+        // Prompts the user to enter the number of decks to use in the game.
         System.out.println("Enter a number of decks: 2, 4, or any even number");
 
-        // getNumberString gets a string input from the user
+        // Reads the user's input for the number of decks.
         getNumberString = input.nextLine();
 
-        // Initializes variable numberOfDeck with 0
+        // Integer variable to store the parsed number of decks.
         int numberOfDeck = 0;
 
-        // Exception handling
+        // Tries to parse the user's input for the number of decks.
         try 
         {
-            // playerBetAmount gets the parseInt of getNumber
+            // Parses the input string to an integer for the number of decks.
             numberOfDeck = (int)(Integer.parseInt(getNumberString));
         }
+        // Catches exceptions if the input is not a valid integer.
         catch (NumberFormatException e)
         {
-            // If the string does not contain a number, then playerBetAmount gets integer 2
-            // and the exception is printed
+            // Sets the number of decks to 2 if input is invalid and prints the exception message.
             numberOfDeck = 2;
             System.out.println("Exception: " + e.getMessage());
         }
         
-        // If the numberOfDeck is not even then
-        // numberOfDeck should stay the same
+        // Checks if the number of decks is even; if not, sets it to 2.
         if (numberOfDeck % 2 != 0)
         {
             System.out.println("Error: number of the decks is an odd number, initializing size to 2");
             numberOfDeck = 2;
         }
+        // Prints the number of decks being used.
         System.out.println("numberOfDeck: " + numberOfDeck);
 
-        // Program asks the user to enter an integer value for the size of a deck
+        // Prompts the user to enter the size of each deck.
         System.out.println("Enter the size of a deck(Even numbers only, larger than 8)");
 
-        // getNumberString gets a string input from the user
+        // Reads the user's input for the size of the deck.
         getNumberString = input.nextLine();
 
-        // Initializes variable sizeOfDeck with 0
+        // Integer variable to store the parsed size of the deck.
         int sizeOfDeck = 0;
 
-        // Exception handling
+        // Tries to parse the user's input for the size of the deck.
         try 
         {
-            // playerBetAmount gets the parseInt of getNumber
+            // Parses the input string to an integer for the size of the deck.
             sizeOfDeck = (int)(Integer.parseInt(getNumberString));
         }
+        // Catches exceptions if the input is not a valid integer.
         catch (NumberFormatException e)
         {
-            // If the string does not contain a number, then playerBetAmount gets integer 2
-            // and the exception is printed
+            // Sets the size of the deck to 10 if input is invalid and prints the exception message.
             sizeOfDeck = 10;
             System.out.println("Exception: " + e.getMessage());
         }
 
-        // If the numberOfDeck is not even then
-        // numberOfDeck should stay the same
+        // Checks if the size of the deck is even and greater than 8; if not, sets it to 10.
         if (sizeOfDeck % 2 != 0 || sizeOfDeck <= 8)
         {
             System.out.println("Error: size of the decks is a weird number, initializing size to 10");
             sizeOfDeck = 10;
         }
+        // Prints the total number of cards in all decks.
         System.out.println("Size of all decks: " + (sizeOfDeck*numberOfDeck) + " cards");
 
-        // // Initialize each deck with Card objects
-        // for (int i = 0; i < numberOfDeck; i++)
-        // {
-        //     for (int j = 0; j < sizeOfDeck; j++) 
-        //     {
-        //         // You may need to adjust the constructor parameters for Card as needed
-        //         // Replace the following line with the correct Card constructor parameters if needed
-        //         if (j <= sizeOfDeck/2)
-        //         {
-        //             // Adds a new Card to the arrayList
-        //             cardList.add(new Card());
-        //         }
-        //         else
-        //         {
-        //             // Adds null to the arrayList
-        //             cardList.add(null);
-        //         }
-        //     }
-        // }
+        // Sets the totalDeckSize to the product of sizeOfDeck and numberOfDeck.
+        totalDeckSize = sizeOfDeck * numberOfDeck;
 
-        // Asks the player if shuffling should be  added or not
+        // Prompts the user to decide if shuffling should be enabled.
         System.out.println("Would you like to add shuffling the funny game? (Yes or No)");
 
-        // Input for the question is given to the getYesNoString1 variable
+        // Reads the user's input for shuffling.
         getYesNoString1 = input.nextLine();
         
-        // Conditional where if the first character of the getYesNoString1 is Y
-        // then enableShuffling gets true
-        // Else: enablingShuffling gets false
+        // Checks if the user wants to enable shuffling based on their input.
         if (getYesNoString1.substring(0, 1).equalsIgnoreCase("Y"))
         {
             enableShuffling = true;
@@ -141,14 +133,13 @@ public class CasinoWarGame
             enableShuffling = false;
         }
         
-        // Program asks the user to enter a name for the player
+        // Prompts the user to enter their name.
         System.out.println("Enter your name: ");
 
-        // Stores the user's input in the variable playerName
+        // Reads the user's input for their name.
         String playerName = input.nextLine();
 
-        // Conditional that looks into the string
-        // From the output, you can tell the program is also evil
+        // Checks for special cases in the player's name and prints appropriate messages.
         if (playerName.substring(0, 1).equalsIgnoreCase("H"))
         {
             System.out.println("I don't like that name >:)");
@@ -166,18 +157,32 @@ public class CasinoWarGame
             System.out.println("cool name I guess");
         }
         
+        // Prompts the user to decide if they want to cheat.
         System.out.println("Would you like to cheat?");
+        // Reads the user's input for cheating.
         getYesNoString2 = input.nextLine();
 
+        // Sets enableCheating based on the user's input.
+        if (getYesNoString2.equalsIgnoreCase("Yes"))
+        {
+            enableCheating = true;
+        }
+        else
+        {
+            enableCheating = false;
+        }
 
-        // Creates an instance of Player1 class
+        // Prints the user's response to the cheating question.
+        System.out.println("Response" + getYesNoString2);
+
+        // Declares a Person object to represent the player.
         Person thePlayer;
        
-
-        // Creates an instance of Dealer class
+        // Declares a Person object to represent the dealer.
         Person theDealer;
 
-        if (getYesNoString2.equalsIgnoreCase("No"))
+        // Instantiates the player and dealer objects based on shuffling and cheating options.
+        if (!enableCheating)
         {
             if (enableShuffling)
             {
@@ -199,116 +204,93 @@ public class CasinoWarGame
             }
             else
             {
-                thePlayer = new Person(playerName, true);
+                thePlayer = new CheatPlayer(playerName, true);
                 theDealer = new Person("The Dealer", false);
             }
         }
 
-        // Boolean variable for the playAgain option
+        // Boolean variable to control the main game loop for playing again.
         boolean playAgain = true;
 
-        // Output statement that outputs a message to the user/player if they are ready to play, no conditional statement
-        // This program would force the player to play the game
+        // Prompts the user if they are ready to play (no conditional, game will proceed).
         System.out.println("Are you ready to play?");
+        // Waits for user input before starting the game.
         input.nextLine();
 
-        // Output statement that outputs a message to welcome the player to the game
+        // Prints a welcome message to the player.
         System.out.println();
         System.out.println("Welcome to Casino War!");
 
-        // int variable for index
+        // Integer variable to keep track of the card array index.
         int indexOfCardArray = 0;
 
-        // Game loop
+        // Main game loop that continues as long as playAgain is true.
         while (playAgain)
         {
+            // Boolean variable to control the inner game loop for a round.
             boolean gameLoop = true;
 
-            // Program assigns the deck to the player and dealer
-            if (getYesNoString2.equalsIgnoreCase("No"))
-            {
-                CheatPlayer cheatPlayerCast = (CheatPlayer) thePlayer;
-                cheatPlayerCast.setCardCheatDeck();
-            }
-            else
-            {
-                thePlayer.setCardDeck(numberOfDeck, sizeOfDeck);
-            }
-            
-            theDealer.setCardDeck(numberOfDeck, sizeOfDeck);
-            indexOfCardArray++;
+            // Assigns decks to the player and dealer.
+            thePlayer.setCardDeck(numberOfDeck, sizeOfDeck, "Black");
+            theDealer.setCardDeck(numberOfDeck, sizeOfDeck, "Red");
 
-            // Program informs user of the player's bet amount
+            // Prints the total number of cards in play.
+            System.out.println((numberOfDeck*sizeOfDeck) + "");
+
+            // Prints the player's current balance.
             System.out.println();
             System.out.println("Your current balance is: " + thePlayer.getBalance());
                 
-            // Program asks the user to enter a bet amount
+            // Prompts the user to enter a bet amount.
             System.out.println("Enter a bet amount: ");
 
+            // Reads the user's input for the bet amount.
             getNumberString = input.nextLine();
             
-            // Temporary variable to store the user's input
+            // Integer variable to store the player's bet amount.
             int playerBetAmount = 0;
 
-            // Exception handling
+            // Tries to parse the user's input for the bet amount.
             try 
             {
-                // playerBetAmount gets the parseInt of getNumber
+                // Parses the input string to an integer for the bet amount.
                 playerBetAmount = Integer.parseInt(getNumberString);
             }
+            // Catches exceptions if the input is not a valid integer.
             catch (NumberFormatException e)
             {
-                // If the string does not contain a number, then playerBetAmount gets integer 2
-                // and the exception is printed
+                // Sets the bet amount to 2 if input is invalid and prints the exception message.
                 playerBetAmount = 2;
                 System.out.println(e.getMessage());
             }
 
-            // Temporary variable to store the dealer's bet amount
+            // Integer variable to store the dealer's bet amount (same as player's).
             int dealerBetAmount = playerBetAmount;
 
+            // Retrieves the player's current deck.
+            ArrayList<Card> playerTempDeck = thePlayer.getCardDeck();
+            // Retrieves the dealer's current deck.
+            ArrayList<Card> dealerTempDeck = theDealer.getCardDeck();
+
+            // Inner game loop for a single round.
             while(gameLoop)
             {
-                // Boolean variables
+                // Boolean variable to indicate if the player wins the round.
                 boolean playerWins = false;
+                // Boolean variable to indicate if the dealer wins the round.
                 boolean dealerWins = false;
 
-                // Print each card in the player's deck
-                System.out.print("Player's deck: ");
-                for (Card card : thePlayer.getCardDeck()) 
-                {
-                    if (card != null) 
-                    {
-                        System.out.print(card.getCardName() + ", ");
-                    }
-                }
-                System.out.println();
-
-                // Print each card in the dealer's deck
-                System.out.print("Dealer's deck: ");
-                for (Card card : theDealer.getCardDeck()) {
-                    if (card != null) 
-                    {
-                        System.out.print(card.getCardName() + ", ");
-                    }
-                }
-                System.out.println();
-
-                // Adds a buffer to the scanner
+                // Adds a buffer to the scanner to wait for user input.
                 input.nextLine();
 
-                // Conditional statement
-                // If the player's bet amount is greater than the player's balance
-                // Bet amount is divided by 2
+                // Checks if the player's bet is greater than their balance and splits the bet if necessary.
                 if (playerBetAmount > thePlayer.getBalance())
                 {
                     System.out.println("Your bet amount is greater than your balance. All bets split in half.");
                     playerBetAmount /= 2;
                     dealerBetAmount = playerBetAmount;       
                 }
-
-                // If the player's bet amount is greater than the dealer's balance
-                // Bet amount is divided by 2
+                // Checks if the dealer's bet is greater than their balance and splits the bet if necessary.
                 else if (dealerBetAmount > theDealer.getBalance())
                 {
                     System.out.println("Your bet amount is greater than the Dealer's balance. All bets split in half.");
@@ -316,51 +298,89 @@ public class CasinoWarGame
                     playerBetAmount = dealerBetAmount; 
                 }
                 
-                // Program informs user of the beginning of the game
+                // Prints a message indicating the start of the round.
                 System.out.println("\nPlayer is ready, Dealer is ready ");
 
-                // Program questions user if they are ready to flip their card
-                // Will continue without any conditional statement
+                // Prompts the user if they are ready to flip their card.
                 System.out.println("Are you ready to flip your card? ");
+                // Waits for user input before flipping cards.
                 input.nextLine();
 
+                // Prints a blank line for formatting.
                 System.out.println();
 
-                // Temporary variables that store references to the player's and dealer's card deck
-                ArrayList<Card> playerTempDeck = thePlayer.getCardDeck();
-                ArrayList<Card> dealerTempDeck = theDealer.getCardDeck();    
+                // Prints the player's current deck.
+                System.out.print("Player's deck: ");
+                for (Card card : thePlayer.getCardDeck()) 
+                {
+                    if (card != null) 
+                    {
+                        System.out.print(card.getCardName() + ", ");
+                    }
+                    else
+                    {
+                        System.out.print(", ");
+                    }
+                }
+                // Prints the value of the first card in the player's deck.
+                System.out.println(thePlayer.getCardDeck().get(0).getCardValue());
+
+                // Prints the dealer's current deck.
+                System.out.print("Dealer's deck: ");
+                for (Card card : theDealer.getCardDeck()) {
+                    if (card != null) 
+                    {
+                        System.out.print(card.getCardName() + ", ");
+                    }
+                    else
+                    {
+                        System.out.print(", ");
+                    }
+                }
+                
+                // Prints the number of cards in the player's current deck.
                 System.out.println("Number of cards in your current deck: " + getLastIndex(playerTempDeck));
+                // Prints blank lines for formatting.
+                System.out.println();
                 System.out.println();
 
-                // Informs the player what card they drew
+                // Informs the player of the card they drew.
                 System.out.println("You drew a: " + (playerTempDeck.get(0).getCardName()) + " card");
 
-                // Informs the player what card the dealer drew
+                // Informs the player of the card the dealer drew.
                 System.out.println("The dealer drew a: " + (dealerTempDeck.get(0).getCardName()) + " card");
 
-                // Conditional statement to check if the first element has null
-                if (playerTempDeck.get(0) == null || dealerTempDeck.get(0) == null) 
+                // Checks if the first card in the player's deck is null and moves elements if needed.
+                if (playerTempDeck.get(0) == null) 
                 {
-                    moveElements(dealerTempDeck);
                     moveElements(playerTempDeck);
                 }
+                // Checks if the first card in the dealer's deck is null and moves elements if needed.
+                else if (dealerTempDeck.get(0) == null)
+                {
+                    moveElements(dealerTempDeck);
+                }
 
-                // Conditional statement to check the values between the dealer's and player's card
+                // Compares the values of the player's and dealer's cards to determine the round outcome.
                 if (playerTempDeck.get(0).getCardValue() > dealerTempDeck.get(0).getCardValue())
                 {
+                    // Player wins the round and takes both cards.
                     System.out.println("You win the round!");
                     playerTempDeck.set(getFirstEmptyIndex(playerTempDeck), dealerTempDeck.get(0));
                     playerTempDeck.set(getFirstEmptyIndex(playerTempDeck), playerTempDeck.get(0));
                     moveElements(dealerTempDeck);
                     moveElements(playerTempDeck);
                 }
+                // Checks for a tie (war scenario).
                 else if (playerTempDeck.get(0).getCardValue() == dealerTempDeck.get(0).getCardValue())
                 {
+                    // Initiates the war scenario.
                     System.out.println("WAR");
                     System.out.println("Would you like to continue?");
                     input.nextLine();
                     startWar(playerTempDeck, dealerTempDeck);
                 }
+                // Dealer wins the round and takes both cards.
                 else if (playerTempDeck.get(0).getCardValue() < dealerTempDeck.get(0).getCardValue())
                 {
                     System.out.println("You lost the round!");
@@ -369,121 +389,226 @@ public class CasinoWarGame
                     moveElements(dealerTempDeck);
                     moveElements(playerTempDeck);
                 }
-                // Program informs user of what deck they get and what deck the dealer gets
-                System.out.println(thePlayer.getName() + " gets deck #" + (indexOfCardArray + 1));
-                System.out.println(theDealer.getName() + " gets deck #" + (indexOfCardArray + 2));
-                System.out.println("All cards get shuffled");
 
-                // Conditional where if enableShuffling is true, then both dealer and player cards get shuffled
-                if (enableShuffling)
+                // Prints the player's deck after the round.
+                System.out.print("Player's deck: ");
+                for (Card card : thePlayer.getCardDeck()) 
                 {
-                    // Creates new objects that used Casted versions of the person objects
-                    Player1 playerCasted = (Player1) thePlayer;
-                    Dealer dealerCasted = (Dealer) theDealer;
-
-                    // Calls methods from the casted objects to shuffle
-                    // the cards
-                    playerCasted.shuffleRedCards(playerTempDeck);
-                    dealerCasted.shuffleBlackCards(dealerTempDeck);
+                    if (card != null) 
+                    {
+                        System.out.print(card.getCardName() + ", ");
+                    }
+                }
+                // Prints the dealer's deck after the round.
+                System.out.print("Dealer's deck: ");
+                for (Card card : theDealer.getCardDeck()) {
+                    if (card != null) 
+                    {
+                        System.out.print(card.getCardName() + ", ");
+                    }
                 }
 
-                System.out.println();
-
-                // Condition to see if one of the players has the full number of cards
-                if (getLastIndex(playerTempDeck) == sizeOfDeck)
+                // Checks if the player or dealer has all the cards or none, to determine the winner.
+                if (getLastIndex(playerTempDeck) == sizeOfDeck*numberOfDeck || getLastIndex(dealerTempDeck) == 0)
                 {
                     playerWins = true;
                 }
-                else if (getLastIndex(dealerTempDeck) == sizeOfDeck)
+                else if (getLastIndex(dealerTempDeck) == sizeOfDeck*numberOfDeck || getLastIndex(playerTempDeck) == 0)
                 {
                     dealerWins = true;
                 }
+                else
+                {
+                    // Informs the user that all cards will be shuffled.
+                    System.out.println("All cards get shuffled");
 
-                // Program questions user if they are ready to flip their card
-                // Will continue without any conditional statement
+                    // If shuffling is enabled and cheating is not, shuffle both decks.
+                    if (enableShuffling && !enableCheating)
+                    {
+                        // Casts the player and dealer to their respective classes for shuffling.
+                        Player1 playerCasted = (Player1) thePlayer;
+                        Dealer dealerCasted = (Dealer) theDealer;
+
+                        // Shuffles half of the red and black cards for player and dealer.
+                        playerTempDeck = playerCasted.shuffleHalfRedCards(playerTempDeck);
+                        dealerTempDeck = dealerCasted.shuffleHalfBlackCards(dealerTempDeck);
+                        
+                        // Prints the player's deck after shuffling.
+                        System.out.print("Player's deck: ");
+                        for (Card card : thePlayer.getCardDeck()) 
+                        {
+                            if (card != null) 
+                            {
+                                System.out.print(card.getCardName() + ", ");
+                            }
+                        }
+                        System.out.println(thePlayer.getCardDeck().get(0).getCardValue());
+
+                        // Prints the dealer's deck after shuffling.
+                        System.out.print("Dealer's deck: ");
+                        for (Card card : theDealer.getCardDeck()) {
+                            if (card != null) 
+                            {
+                                System.out.print(card.getCardName() + ", ");
+                            }
+                        }
+                    }
+                    // If shuffling and cheating are both enabled, shuffle using CheatPlayer.
+                    else if (enableShuffling && enableCheating)
+                    {
+                        // Casts the player and dealer to their respective classes for shuffling.
+                        CheatPlayer playerCasted = (CheatPlayer) thePlayer;
+                        Dealer dealerCasted = (Dealer) theDealer;
+
+                        // Shuffles half of the red and black cards for player and dealer.
+                        playerTempDeck = playerCasted.shuffleHalfRedCards(playerTempDeck);
+                        dealerTempDeck = dealerCasted.shuffleHalfBlackCards(dealerTempDeck);
+                    }
+
+                    // Prints the player's deck after shuffling.
+                    System.out.print("Player's deck: ");
+                    for (Card card : thePlayer.getCardDeck()) 
+                    {
+                        if (card != null) 
+                        {
+                            System.out.print(card.getCardName() + ", ");
+                        }
+                    }
+                    System.out.println(thePlayer.getCardDeck().get(0).getCardValue());
+
+                    // Prints the dealer's deck after shuffling.
+                    System.out.print("Dealer's deck: ");
+                    for (Card card : theDealer.getCardDeck()) {
+                        if (card != null) 
+                        {
+                            System.out.print(card.getCardName() + ", ");
+                        }
+                    }
+
+                    // Prints a blank line for formatting.
+                    System.out.println();
+                }
+
+                // Prompts the user if they would like to continue to the next round.
                 System.out.println("Would you like to continue?");
                 input.nextLine();
 
-                // Conditional that checks if the boolean variable playerWins is true
+                // Checks if the player has won the round.
                 if (playerWins)
                 {
+                    // Player wins, updates balances and ends the round.
                     System.out.println("You win the round!");
                     System.out.println("You've gained $" + dealerBetAmount + "!");
                     thePlayer.addBalance(dealerBetAmount);
                     theDealer.deductBalance(dealerBetAmount);
                     gameLoop = false;
                 }
-                // Conditional that checks if the boolean variable dealerWins is true
+                // Checks if the dealer has won the round.
                 else if (dealerWins)
                 {
+                    // Dealer wins, updates balances and ends the round.
                     System.out.println("You lost the round! The Dealer wins!");
                     System.out.println("You've losted $" + playerBetAmount + "!");
                     thePlayer.deductBalance(playerBetAmount);
                     theDealer.addBalance(playerBetAmount);
                     gameLoop = false;
                 }
-                // Program informs user of what deck they get and what deck the dealer gets
-                System.out.println(thePlayer.getName() + " gets deck #" + (indexOfCardArray + 1));
-                System.out.println(theDealer.getName() + " gets deck #" + (indexOfCardArray + 2));
             }
-            // Conditional that checks the game can be played again if both the player and dealer still have money
+            // Checks if both the player and dealer have money to play another round.
             if (thePlayer.getBalance() > 0 && theDealer.getBalance() > 0)
             {
-                // If true, the program will the prompt the user if they want to play again
+                // Prompts the user if they want to play another round.
                 System.out.println("Would you like to play another round? Yes or No");
                 String redo = input.nextLine();
-                // If true, then the game restarts
+                // If yes, the game restarts.
                 if (redo.equalsIgnoreCase("Yes"))
                 {
                     playAgain = true;
                 }
-                // If false, then the game stops
+                // If no, the game ends and prints the results.
                 else
                 {
                     playAgain = false;
                     System.out.println("The game has ended. Results:");
-                    // If true, the program states the player has won
+                    // Checks if the player has won the game.
                     if (thePlayer.getBalance() > theDealer.getBalance())
                     {
                         System.out.println("You have won the game!");
                     }
-                    // If true, the program states the player has tied
+                    // Checks if the game is a tie.
                     else if (theDealer.getBalance() == thePlayer.getBalance()) 
                     {
                         System.out.println("This game ends in a tie!");
                     }
-                    // If all conditionals are false, the program states the player has lost the game
+                    // If not, the player has lost the game.
                     else
                     {
                         System.out.println("You have lost the game!");
+                        // Prints the player's deck.
+                        System.out.print("Player's deck: ");
+                        for (Card card : thePlayer.getCardDeck()) 
+                        {
+                            if (card != null) 
+                            {
+                                System.out.print(card.getCardName() + ", ");
+                            }
+                        }
+                        System.out.println(thePlayer.getCardDeck().get(0).getCardValue());
+
+                        // Prints the dealer's deck.
+                        System.out.print("Dealer's deck: ");
+                        for (Card card : theDealer.getCardDeck()) {
+                            if (card != null) 
+                            {
+                                System.out.print(card.getCardName() + ", ");
+                            }
+                        }
                     }
                 }
             }
+            // If either player or dealer is out of money, the game ends and prints the results.
             else
             {
-                // If false, then the game will stop and more conditionals start
                 playAgain = false;
                 System.out.println("The game has ended. Results:");
-                // If true, the program states the player has won
+                // Checks if the player has won the game.
                 if (thePlayer.getBalance() > theDealer.getBalance())
                 {
                     System.out.println("You have won the game!");
                 }
-                // If true, the program states the player has tied
+                // Checks if the game is a tie.
                 else if (theDealer.getBalance() == thePlayer.getBalance()) 
                 {
                     System.out.println("This game ends in a tie!");
                 }
-                // If all conditionals are false, the program states the player has lost the game
+                // If not, the player has lost the game.
                 else
                 {
                     System.out.println("You have lost the game!");
+                    // Prints the player's deck.
+                    System.out.print("Player's deck: ");
+                    for (Card card : thePlayer.getCardDeck()) 
+                    {
+                        if (card != null) 
+                        {
+                            System.out.print(card.getCardName() + ", ");
+                        }
+                    }
+                    System.out.println(thePlayer.getCardDeck().get(0).getCardValue());
+
+                    // Prints the dealer's deck.
+                    System.out.print("Dealer's deck: ");
+                    for (Card card : theDealer.getCardDeck()) {
+                        if (card != null) 
+                        {
+                            System.out.print(card.getCardName() + ", ");
+                        }
+                    }
                 }
             }
         }
     }
-    // Method that moves elements in the array to the left 1 time
-    // This is to simulate the removal of the card from the deck
+    // Moves all elements in the given ArrayList one position to the left, simulating card removal.
     public static void moveElements(ArrayList<Card> list)
     {
         for (int i = 1; i < list.size(); i++)
@@ -491,12 +616,7 @@ public class CasinoWarGame
             list.set(i-1, list.get(i));
         }
     }
-    // Method that returns the first empty index in an ArrayList (i.e., the first null element)
-    /*\
-     * Returns the index of the first empty (null) element in the given list of cards,
-     * where the previous element is not null. This is typically used to find the first
-     * available slot after a sequence of non-null elements.
-    \*/
+    // Returns the index of the first empty (null) element in the given list of cards.
     public static int getFirstEmptyIndex(ArrayList<Card> list)
     {
         int index = 0;
@@ -511,23 +631,23 @@ public class CasinoWarGame
         return index;
     }
 
-    // Method that returns the count of non-null elements in the ArrayList
+    // Returns the count of non-null elements in the ArrayList, representing the number of cards.
     public static int getLastIndex(ArrayList<Card> list)
     {
         int count = 0;
-        for (Card card : list)
+        for (int i = 0; i < list.size(); i++)
         {
-            if (card != null)
+            if (list.get(i) != null)
             {
                 count++;
             }
         }
         return count;
     }
-    // Debug method that traverses through an array and prints out the card names
+    // Debug method that prints out the card names in two arrays for player and dealer.
     public static void debugArray(Card[] arr1, Card[] arr2)
     {
-        // Player's card deck traversing
+        // Prints the player's card deck.
         System.out.println("Your card deck: ");
         int j = 0;
         for (int i = 0; i < arr1.length; i++)
@@ -544,7 +664,7 @@ public class CasinoWarGame
             
         }
         System.out.println();
-        // Dealer's card deck traversing
+        // Prints the dealer's card deck.
         System.out.println("Dealer's card deck: ");
         int k = 0;
         for (int i = 0; i < arr2.length; i++)
@@ -562,19 +682,22 @@ public class CasinoWarGame
         }
         System.out.println();       
     }
-    // War Method
+    // Handles the "war" scenario when both player and dealer draw cards of equal value.
     public static void startWar(ArrayList<Card> arr1, ArrayList<Card> arr2)
     {
         int index = 3;
         boolean war = true;
         while (war)
         {
-            // Check for nulls or out-of-bounds to avoid exceptions
+            // Checks for nulls or out-of-bounds to avoid exceptions during war.
             if (index >= arr1.size() || index >= arr2.size() || arr1.get(index) == null || arr2.get(index) == null) 
             {
                 System.out.println("Not enough cards to continue war!");
                 war = false;
-                // Player wins war
+            }
+            else
+            {
+                // Player wins the war round.
                 if (arr1.get(index).getCardValue() > arr2.get(index).getCardValue())
                 {
                     System.out.println("You win the War round!");
@@ -587,7 +710,7 @@ public class CasinoWarGame
                     }
                     war = false;
                 }
-                // Dealer wins war
+                // Dealer wins the war round.
                 else if (arr1.get(index).getCardValue() < arr2.get(index).getCardValue())
                 {
                     System.out.println("You lose the War round!");
@@ -600,7 +723,7 @@ public class CasinoWarGame
                     }
                     war = false;
                 }
-                // Tie, continue war
+                // Tie, continue war with more cards.
                 else
                 {
                     System.out.println("You and the Dealer tied the War round!");
@@ -609,5 +732,11 @@ public class CasinoWarGame
             }
             
         }
+    }
+
+    // Returns the total size of all decks combined.
+    public static int getTotalSize()
+    {
+        return totalDeckSize;
     }
 }
