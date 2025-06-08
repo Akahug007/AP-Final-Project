@@ -3,7 +3,7 @@ package Players;
 import Cards.Card;
 import java.util.ArrayList;
 
-// Player1 interface
+// Person interface
 interface personInterface
 {
     public ArrayList<Card> getCardDeck();
@@ -164,8 +164,8 @@ public class Person implements personInterface
     {
         // Creates a string that is formatted by the programmer
         // Then stored into output String object
-        String output = "Player " + getName() + "\n" +
-                        "Here is your balance" + getBalance();
+        String output = "|Player: " + getName() + "\n" +
+                        "|Balance: " + getBalance();
         // Returns the output String object
         return output;
     }

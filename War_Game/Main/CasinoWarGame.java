@@ -43,12 +43,6 @@ public class CasinoWarGame
         boolean enableShuffling = false;
         // Boolean variable to determine if cheating is enabled.
         boolean enableCheating = false;
-
-        // ArrayList to store the cards for the game (all decks).
-        ArrayList<Card> cardList = new ArrayList<>();
-
-        // Temporary ArrayList to store a reference to the player's cards.
-        ArrayList<Card> tempPlayerList = null;
         
         // Prompts the user to enter the number of decks to use in the game.
         System.out.println("Enter a number of decks: 2, 4, or any even number");
@@ -79,14 +73,18 @@ public class CasinoWarGame
             System.out.println("Error: number of the decks is an odd number, initializing size to 2");
             numberOfDeck = 2;
         }
-        // Prints the number of decks being used.
-        System.out.println("numberOfDeck: " + numberOfDeck);
+
+        // Prints a newline
+        System.out.println();
 
         // Prompts the user to enter the size of each deck.
         System.out.println("Enter the size of a deck(Even numbers only, larger than 8)");
 
         // Reads the user's input for the size of the deck.
         getNumberString = input.nextLine();
+
+        // Prints a newline
+        System.out.println();
 
         // Integer variable to store the parsed size of the deck.
         int sizeOfDeck = 0;
@@ -112,10 +110,13 @@ public class CasinoWarGame
             sizeOfDeck = 10;
         }
         // Prints the total number of cards in all decks.
-        System.out.println("Size of all decks: " + (sizeOfDeck*numberOfDeck) + " cards");
+        System.out.println("Size of all decks in total: " + (sizeOfDeck*numberOfDeck) + " cards");
 
         // Sets the totalDeckSize to the product of sizeOfDeck and numberOfDeck.
         totalDeckSize = sizeOfDeck * numberOfDeck;
+
+        // Prints a newline
+        System.out.println();
 
         // Prompts the user to decide if shuffling should be enabled.
         System.out.println("Would you like to add shuffling the funny game? (Yes or No)");
@@ -132,12 +133,18 @@ public class CasinoWarGame
         {
             enableShuffling = false;
         }
+
+        // Prints a newline
+        System.out.println();
         
         // Prompts the user to enter their name.
         System.out.println("Enter your name: ");
 
         // Reads the user's input for their name.
         String playerName = input.nextLine();
+
+        // Prints a newline
+        System.out.println();
 
         // Checks for special cases in the player's name and prints appropriate messages.
         if (playerName.substring(0, 1).equalsIgnoreCase("H"))
@@ -157,8 +164,12 @@ public class CasinoWarGame
             System.out.println("cool name I guess");
         }
         
+        // Prints a newline
+        System.out.println();
+        
         // Prompts the user to decide if they want to cheat.
         System.out.println("Would you like to cheat?");
+
         // Reads the user's input for cheating.
         getYesNoString2 = input.nextLine();
 
@@ -171,9 +182,6 @@ public class CasinoWarGame
         {
             enableCheating = false;
         }
-
-        // Prints the user's response to the cheating question.
-        System.out.println("Response" + getYesNoString2);
 
         // Declares a Person object to represent the player.
         Person thePlayer;
@@ -209,6 +217,13 @@ public class CasinoWarGame
             }
         }
 
+        // Prints the toStrings of the player and dealer
+        System.out.println();
+        System.out.println(thePlayer.toString());
+        System.out.println();
+        System.out.println(theDealer.toString());
+        System.out.println();
+
         // Boolean variable to control the main game loop for playing again.
         boolean playAgain = true;
 
@@ -219,10 +234,7 @@ public class CasinoWarGame
 
         // Prints a welcome message to the player.
         System.out.println();
-        System.out.println("Welcome to Casino War!");
-
-        // Integer variable to keep track of the card array index.
-        int indexOfCardArray = 0;
+        System.out.println("| Welcome to Casino War! |");
 
         // Main game loop that continues as long as playAgain is true.
         while (playAgain)
@@ -233,9 +245,6 @@ public class CasinoWarGame
             // Assigns decks to the player and dealer.
             thePlayer.setCardDeck(numberOfDeck, sizeOfDeck, "Black");
             theDealer.setCardDeck(numberOfDeck, sizeOfDeck, "Red");
-
-            // Prints the total number of cards in play.
-            System.out.println((numberOfDeck*sizeOfDeck) + "");
 
             // Prints the player's current balance.
             System.out.println();
@@ -280,9 +289,6 @@ public class CasinoWarGame
                 // Boolean variable to indicate if the dealer wins the round.
                 boolean dealerWins = false;
 
-                // Adds a buffer to the scanner to wait for user input.
-                input.nextLine();
-
                 // Checks if the player's bet is greater than their balance and splits the bet if necessary.
                 if (playerBetAmount > thePlayer.getBalance())
                 {
@@ -306,49 +312,23 @@ public class CasinoWarGame
                 // Waits for user input before flipping cards.
                 input.nextLine();
 
-                // Prints a blank line for formatting.
+                // Prints a newline
                 System.out.println();
-
-                // Prints the player's current deck.
-                System.out.print("Player's deck: ");
-                for (Card card : thePlayer.getCardDeck()) 
-                {
-                    if (card != null) 
-                    {
-                        System.out.print(card.getCardName() + ", ");
-                    }
-                    else
-                    {
-                        System.out.print(", ");
-                    }
-                }
-                // Prints the value of the first card in the player's deck.
-                System.out.println(thePlayer.getCardDeck().get(0).getCardValue());
-
-                // Prints the dealer's current deck.
-                System.out.print("Dealer's deck: ");
-                for (Card card : theDealer.getCardDeck()) {
-                    if (card != null) 
-                    {
-                        System.out.print(card.getCardName() + ", ");
-                    }
-                    else
-                    {
-                        System.out.print(", ");
-                    }
-                }
                 
-                // Prints the number of cards in the player's current deck.
+                // Prints the number of cards in the player's current deck
                 System.out.println("Number of cards in your current deck: " + getLastIndex(playerTempDeck));
-                // Prints blank lines for formatting.
-                System.out.println();
+
+                // Prints a newline
                 System.out.println();
 
-                // Informs the player of the card they drew.
+                // Informs the player of the card they drew
                 System.out.println("You drew a: " + (playerTempDeck.get(0).getCardName()) + " card");
 
-                // Informs the player of the card the dealer drew.
+                // Informs the player of the card the dealer drew
                 System.out.println("The dealer drew a: " + (dealerTempDeck.get(0).getCardName()) + " card");
+
+                // Prints a newline
+                System.out.println();
 
                 // Checks if the first card in the player's deck is null and moves elements if needed.
                 if (playerTempDeck.get(0) == null) 
@@ -390,24 +370,6 @@ public class CasinoWarGame
                     moveElements(playerTempDeck);
                 }
 
-                // Prints the player's deck after the round.
-                System.out.print("Player's deck: ");
-                for (Card card : thePlayer.getCardDeck()) 
-                {
-                    if (card != null) 
-                    {
-                        System.out.print(card.getCardName() + ", ");
-                    }
-                }
-                // Prints the dealer's deck after the round.
-                System.out.print("Dealer's deck: ");
-                for (Card card : theDealer.getCardDeck()) {
-                    if (card != null) 
-                    {
-                        System.out.print(card.getCardName() + ", ");
-                    }
-                }
-
                 // Checks if the player or dealer has all the cards or none, to determine the winner.
                 if (getLastIndex(playerTempDeck) == sizeOfDeck*numberOfDeck || getLastIndex(dealerTempDeck) == 0)
                 {
@@ -432,26 +394,6 @@ public class CasinoWarGame
                         // Shuffles half of the red and black cards for player and dealer.
                         playerTempDeck = playerCasted.shuffleHalfRedCards(playerTempDeck);
                         dealerTempDeck = dealerCasted.shuffleHalfBlackCards(dealerTempDeck);
-                        
-                        // Prints the player's deck after shuffling.
-                        System.out.print("Player's deck: ");
-                        for (Card card : thePlayer.getCardDeck()) 
-                        {
-                            if (card != null) 
-                            {
-                                System.out.print(card.getCardName() + ", ");
-                            }
-                        }
-                        System.out.println(thePlayer.getCardDeck().get(0).getCardValue());
-
-                        // Prints the dealer's deck after shuffling.
-                        System.out.print("Dealer's deck: ");
-                        for (Card card : theDealer.getCardDeck()) {
-                            if (card != null) 
-                            {
-                                System.out.print(card.getCardName() + ", ");
-                            }
-                        }
                     }
                     // If shuffling and cheating are both enabled, shuffle using CheatPlayer.
                     else if (enableShuffling && enableCheating)
@@ -463,26 +405,6 @@ public class CasinoWarGame
                         // Shuffles half of the red and black cards for player and dealer.
                         playerTempDeck = playerCasted.shuffleHalfRedCards(playerTempDeck);
                         dealerTempDeck = dealerCasted.shuffleHalfBlackCards(dealerTempDeck);
-                    }
-
-                    // Prints the player's deck after shuffling.
-                    System.out.print("Player's deck: ");
-                    for (Card card : thePlayer.getCardDeck()) 
-                    {
-                        if (card != null) 
-                        {
-                            System.out.print(card.getCardName() + ", ");
-                        }
-                    }
-                    System.out.println(thePlayer.getCardDeck().get(0).getCardValue());
-
-                    // Prints the dealer's deck after shuffling.
-                    System.out.print("Dealer's deck: ");
-                    for (Card card : theDealer.getCardDeck()) {
-                        if (card != null) 
-                        {
-                            System.out.print(card.getCardName() + ", ");
-                        }
                     }
 
                     // Prints a blank line for formatting.
@@ -544,25 +466,6 @@ public class CasinoWarGame
                     else
                     {
                         System.out.println("You have lost the game!");
-                        // Prints the player's deck.
-                        System.out.print("Player's deck: ");
-                        for (Card card : thePlayer.getCardDeck()) 
-                        {
-                            if (card != null) 
-                            {
-                                System.out.print(card.getCardName() + ", ");
-                            }
-                        }
-                        System.out.println(thePlayer.getCardDeck().get(0).getCardValue());
-
-                        // Prints the dealer's deck.
-                        System.out.print("Dealer's deck: ");
-                        for (Card card : theDealer.getCardDeck()) {
-                            if (card != null) 
-                            {
-                                System.out.print(card.getCardName() + ", ");
-                            }
-                        }
                     }
                 }
             }
@@ -585,25 +488,6 @@ public class CasinoWarGame
                 else
                 {
                     System.out.println("You have lost the game!");
-                    // Prints the player's deck.
-                    System.out.print("Player's deck: ");
-                    for (Card card : thePlayer.getCardDeck()) 
-                    {
-                        if (card != null) 
-                        {
-                            System.out.print(card.getCardName() + ", ");
-                        }
-                    }
-                    System.out.println(thePlayer.getCardDeck().get(0).getCardValue());
-
-                    // Prints the dealer's deck.
-                    System.out.print("Dealer's deck: ");
-                    for (Card card : theDealer.getCardDeck()) {
-                        if (card != null) 
-                        {
-                            System.out.print(card.getCardName() + ", ");
-                        }
-                    }
                 }
             }
         }

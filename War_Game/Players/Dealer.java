@@ -146,4 +146,17 @@ public class Dealer extends Person
         // Returns true if all elements match the object, false otherwise.
         return output;
     }
+
+    // toString method for this class
+    @Override
+    public String toString()
+    {
+        // Creates a string that is formatted by the programmer
+        // Then stored into output String object
+        String output = "|Player: " + getName() + "\n" +
+                        "|Has a balance of $" + getBalance() +
+                        "\n|This is a Dealer";
+        // Returns the output String object
+        return output;
+    }
 }

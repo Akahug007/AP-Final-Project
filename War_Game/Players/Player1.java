@@ -134,4 +134,17 @@ public class Player1 extends Person
         // Returns true if all elements match obj, false otherwise.
         return output;
     }
+
+    // toString method for this class
+    @Override
+    public String toString()
+    {
+        // Creates a string that is formatted by the programmer
+        // Then stored into output String object
+        String output = "|Player: " + getName() + "\n" +
+                        "|Your Balance" + getBalance() +
+                        "\n|You are a player";
+        // Returns the output String object
+        return output;
+    }
 }

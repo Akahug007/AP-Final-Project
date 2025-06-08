@@ -162,4 +162,17 @@ public class CheatPlayer extends Person
     {
         return getCardDeck();
     }
+
+    // toString method for this class
+    @Override
+    public String toString()
+    {
+        // Creates a string that is formatted by the programmer
+        // Then stored into output String object
+        String output = "|Player " + getName() + "\n" +
+                        "|Your balance $" + getBalance() +
+                        "\n|You are a cheater";
+        // Returns the output String object
+        return output;
+    }
 }
