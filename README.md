@@ -16,9 +16,7 @@ How to play the game:
       Players place 1 card face down and 1 card face up
       Player with the highest face up card collects all cards from the table
       If face-up cards are still equal another war is declared
-  
     The game continues until one of the players wins all cards
-  
     Card Ranking highest to lowest: Ace, King, Queen, Jack, 10, 9, 8, 7, 6, 5, 4, 3, 2
       
   In the program:
@@ -37,7 +35,13 @@ How to play the game:
     The program is made to have multiple choice questions or true/false questions
 
 Special Features:
-  One of the special features of the game would be the addition of cheating in the game
+    One of the special features of the game would be the addition of cheating in the game
   This is done through having the cheater be able to have the highest value cards in the
-  their entire deck
-
+  their entire deck.
+  
+  For programmers:
+    Another special feature would be the use of exception handling, this allows the program
+  to run correctly and in alternative methods if the user inputs an unacceptable answer
+  or if the functionality is not performing as expected.
+    Lastly, the program also features interfaces which allowed for classes to require 
+    certain methods and variables.
