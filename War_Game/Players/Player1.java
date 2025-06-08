@@ -2,7 +2,10 @@
 package Players;
 
 // Card class is in the Cards package
-import Cards.Card; 
+import Cards.Card;
+
+//  Imports the ArrayList library
+import java.util.ArrayList;
 
 // Player1 class, where it is a subclass of the Person class
 // Object class for the player/user
@@ -19,24 +22,31 @@ public class Player1 extends Person
 		super(playerName, player);
 	}
 
+    // Returns the boolean variable isPlayer
+    @Override
+    public boolean getPlayer()
+    {
+        return true;
+    }
+
     // Shuffles the cards around
     // possibly a brain method
-    public Card[] shuffleRedCards(Card[] test)
+    public ArrayList<Card> shuffleRedCards(ArrayList<Card> test)
     {
-        // Array of Cards
-        Card[] temp = test;
-        
+        // ArrayList of Cards
+        ArrayList<Card> temp = test;
+
         // Temporary Card object
-        Card tempCard = temp[0];
-        
+        Card tempCard = temp.get(0);
+
         // Conditional to check if first letter of the first element's 
-        // name from temp contains the letter B
-        if (temp[0].getCardColor().equalsIgnoreCase("B"))
+        // color from temp contains the letter B
+        if (temp.get(0).getCardColor().equalsIgnoreCase("B"))
         {
-            
+
         }
         // Checking if temp is null or entirely contains nulls
-        else if (temp == null || checkArrayContainAllNull(temp) || checkArrayContainAllNull(temp, null))
+        else if (temp == null || temp.isEmpty() || checkArrayContainAllNull(temp.toArray(new Card[0])) || checkArrayContainAllNull(temp.toArray(new Card[0]), null))
         {
             temp = null;
         }
@@ -47,21 +57,21 @@ public class Player1 extends Person
             boolean fixed = false;
             // If the card at index 0 is false then
             // a shuffling algorithm starts
-            if (temp[0].getCardColor().substring(0,1).equalsIgnoreCase("R")) 
+            if (temp.get(0).getCardColor().substring(0,1).equalsIgnoreCase("R")) 
             {
                 // Initializes an int variable called index
                 int index = 1;
-                // While index is less than the length of temp or fixed is true
+                // While index is less than the size of temp or fixed is true
                 // then a conditional is used
-                while ((index < temp.length && !fixed) || temp[0].getCardColor().equalsIgnoreCase("B"))
+                while ((index < temp.size() && !fixed) || temp.get(0).getCardColor().equalsIgnoreCase("B"))
                 {
-                    // Conditional that checks if the selected element's name contains the letter R
-                    if (temp[index].getCardColor().substring(0,1).equalsIgnoreCase("B")) 
+                    // Conditional that checks if the selected element's color contains the letter B
+                    if (temp.get(index).getCardColor().substring(0,1).equalsIgnoreCase("B")) 
                     {
-                        // Found a suitable card, swap it with temp[0]
+                        // Found a suitable card, swap it with temp.get(0)
                         Card tempSwap = tempCard;
-                        tempCard = temp[index];
-                        temp[index] = tempSwap;
+                        tempCard = temp.get(index);
+                        temp.set(index, tempSwap);
                         // Fixed gets assigned with true
                         fixed = true;
                     }

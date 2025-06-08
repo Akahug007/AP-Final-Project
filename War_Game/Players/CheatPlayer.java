@@ -1,57 +1,52 @@
+// Players package
 package Players;
 
+// Card class is in the Cards package
 import Cards.Card;
 
 //  Imports the ArrayList library
 import java.util.ArrayList;
 
-// Dealer class, where it is a subclass of the Person class
-// Object class for the dealer/computer
-public class Dealer extends Person
+// Player1 class, where it is a subclass of the Person class
+// Object class for the player/user
+public class CheatPlayer extends Person
 {
-    
-    // Constructor of Dealer class
-    public Dealer(String dealerName, int theBalance, boolean player) 
+    // Constructor of Player1 class
+    public CheatPlayer(String playerName, int theBalance, boolean player) 
     {
-		super(dealerName, theBalance, player);
+		super(playerName, theBalance, player);
 	}
-    public Dealer(String dealerName, boolean player) 
+    // Constructor of Player1 class
+    public CheatPlayer(String playerName, boolean player) 
     {
-		super(dealerName, player);
+		super(playerName, player);
 	}
-
-    // Returns the name of a person
-    @Override
-    public String getName()
-    {
-        return "The Dealer";
-    }
 
     // Returns the boolean variable isPlayer
     @Override
     public boolean getPlayer()
     {
-        return false;
+        return true;
     }
 
     // Shuffles the cards around
     // possibly a brain method
-    public ArrayList<Card> shuffleBlackCards(ArrayList<Card> test)
+    public ArrayList<Card> shuffleRedCards(ArrayList<Card> test)
     {
-        // Copy the input list to avoid modifying the original
-        ArrayList<Card> temp = new ArrayList<>(test);
+        // ArrayList of Cards
+        ArrayList<Card> temp = test;
 
         // Temporary Card object
         Card tempCard = temp.get(0);
 
         // Conditional to check if first letter of the first element's 
         // color from temp contains the letter B
-        if (temp.get(0).getCardColor().equalsIgnoreCase("R"))
+        if (temp.get(0).getCardColor().equalsIgnoreCase("B"))
         {
-            // Do nothing, keep temp as is
+
         }
         // Checking if temp is null or entirely contains nulls
-        else if (temp == null || temp.isEmpty() || temp.stream().allMatch(c -> c == null))
+        else if (temp == null || temp.isEmpty() || checkArrayContainAllNull(temp.toArray(new Card[0])) || checkArrayContainAllNull(temp.toArray(new Card[0]), null))
         {
             temp = null;
         }
@@ -60,24 +55,23 @@ public class Dealer extends Person
         {
             // Initializes a boolean variable called fixed
             boolean fixed = false;
-            // If the card at index 0 is black then
+            // If the card at index 0 is false then
             // a shuffling algorithm starts
-            if (temp.get(0).getCardColor().substring(0,1).equalsIgnoreCase("B")) 
+            if (temp.get(0).getCardColor().substring(0,1).equalsIgnoreCase("R")) 
             {
                 // Initializes an int variable called index
                 int index = 1;
                 // While index is less than the size of temp or fixed is true
                 // then a conditional is used
-                while ((index < temp.size() && !fixed) || temp.get(0).getCardColor().equalsIgnoreCase("R"))
+                while ((index < temp.size() && !fixed) || temp.get(0).getCardColor().equalsIgnoreCase("B"))
                 {
-                    // Conditional that checks if the selected element's color contains the letter R
-                    if (temp.get(index).getCardColor().substring(0,1).equalsIgnoreCase("R")) 
+                    // Conditional that checks if the selected element's color contains the letter B
+                    if (temp.get(index).getCardColor().substring(0,1).equalsIgnoreCase("B")) 
                     {
-                        // Found a suitable card, swap it with temp[0]
+                        // Found a suitable card, swap it with temp.get(0)
                         Card tempSwap = tempCard;
                         tempCard = temp.get(index);
                         temp.set(index, tempSwap);
-                        temp.set(0, tempCard);
                         // Fixed gets assigned with true
                         fixed = true;
                     }
@@ -87,7 +81,6 @@ public class Dealer extends Person
         }
         return temp;
     }
-    
     // Method to check if a card array entirely contains null values only
     public boolean checkArrayContainAllNull(Card[] temp)
     {

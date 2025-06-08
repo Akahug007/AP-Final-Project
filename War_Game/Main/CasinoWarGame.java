@@ -10,9 +10,11 @@ package Main;
 // Imports classes from the Players package
 import Cards.Card;
 import Players.Dealer;
+import Players.Person;
 import Players.Player1;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // This program is about Casino War
 // The game is played with a chosen number of decks with 52 cards each
@@ -25,8 +27,12 @@ public class CasinoWarGame
         // Instantiating the Scanner class
         Scanner input = new Scanner(System.in);
 
-        // Creates a string variable called getNumberString
+        // Creates a string variables called getNumberString and getYesNoString1
         String getNumberString = "";
+        String getYesNoString1 = "";
+
+        // Creates a boolean variable called enableShuffling
+        boolean enableShuffling = false;
 
         // Creates a 2D array of cards where each row is a deck
         ArrayList<Card> cardList = new ArrayList<>();
@@ -93,35 +99,52 @@ public class CasinoWarGame
             System.out.println("Error: size of the decks is a weird number, initializing size to 10");
             sizeOfDeck = 10;
         }
-        System.out.println("sizeOfDeck: " + sizeOfDeck);
+        System.out.println("Size of all decks: " + (sizeOfDeck*numberOfDeck) + " cards");
 
-        // Initialize each deck with Card objects
-        for (int i = 0; i < numberOfDeck; i++)
+        // // Initialize each deck with Card objects
+        // for (int i = 0; i < numberOfDeck; i++)
+        // {
+        //     for (int j = 0; j < sizeOfDeck; j++) 
+        //     {
+        //         // You may need to adjust the constructor parameters for Card as needed
+        //         // Replace the following line with the correct Card constructor parameters if needed
+        //         if (j <= sizeOfDeck/2)
+        //         {
+        //             // Adds a new Card to the arrayList
+        //             cardList.add(new Card());
+        //         }
+        //         else
+        //         {
+        //             // Adds null to the arrayList
+        //             cardList.add(null);
+        //         }
+        //     }
+        // }
+
+        // Asks the player if shuffling should be  added or not
+        System.out.println("Would you like to add shuffling the funny game? (Yes or No)");
+
+        // Input for the question is given to the getYesNoString1 variable
+        getYesNoString1 = input.nextLine();
+        
+        // Conditional where if the first character of the getYesNoString1 is Y
+        // then enableShuffling gets true
+        // Else: enablingShuffling gets false
+        if (getYesNoString1.substring(0, 1).equalsIgnoreCase("Y"))
         {
-            for (int j = 0; j < sizeOfDeck; j++) 
-            {
-                // You may need to adjust the constructor parameters for Card as needed
-                // Replace the following line with the correct Card constructor parameters if needed
-                if (j <= sizeOfDeck/2)
-                {
-                    // Adds a new Card to the arrayList
-                    cardList.add(new Card());
-                }
-                else
-                {
-                    // Adds null to the arrayList
-                    cardList.add(null);
-                }
-            }
+            enableShuffling = true;
         }
-
-        System.out.println();
+        else
+        {
+            enableShuffling = false;
+        }
         
         // Program asks the user to enter a name for the player
         System.out.println("Enter your name: ");
 
         // Stores the user's input in the variable playerName
         String playerName = input.nextLine();
+
         // Conditional that looks into the string
         // From the output, you can tell the program is also evil
         if (playerName.substring(0, 1).equalsIgnoreCase("H"))
@@ -143,11 +166,23 @@ public class CasinoWarGame
         
         System.out.println();
 
-        // Instantiates the Player1 class with the name thePlayer
-        Player1 thePlayer = new Player1(playerName, true);
+        // Creates an instance of Player1 class
+        Person thePlayer;
+       
 
-        // Instantiates the Dealer class with the name theDealer
-        Dealer theDealer = new Dealer("The Dealer", false);
+        // Creates an instance of Dealer class
+        Person theDealer;
+
+        if (enableShuffling)
+        {
+            thePlayer = new Player1(playerName, true);
+            theDealer = new Dealer("The Dealer", false);
+        }
+        else
+        {
+            thePlayer = new Person(playerName, true);
+            theDealer = new Person("The Dealer", false);
+        }
 
         // Boolean variable for the playAgain option
         boolean playAgain = true;
@@ -169,13 +204,9 @@ public class CasinoWarGame
         {
             boolean gameLoop = true;
 
-            // Program informs user of what deck they get and what deck the dealer gets
-            System.out.println(thePlayer.getName() + " gets deck #" + (indexOfCardArray + 1));
-            System.out.println(theDealer.getName() + " gets deck #" + (indexOfCardArray + 2));
-
             // Program assigns the deck to the player and dealer
-            thePlayer.setCardDeck();
-            theDealer.setCardDeck();
+            thePlayer.setCardDeck(numberOfDeck, sizeOfDeck);
+            theDealer.setCardDeck(numberOfDeck, sizeOfDeck);
             indexOfCardArray++;
 
             // Program informs user of the player's bet amount
@@ -213,10 +244,26 @@ public class CasinoWarGame
                 boolean playerWins = false;
                 boolean dealerWins = false;
 
-                 // Example: Print the player's deck using Arrays.toString()
-                System.out.println("Player's deck: " + Arrays.toString(thePlayer.getCardDeck()));
-                // Example: Print the dealer's deck using Arrays.toString()
-                System.out.println("Dealer's deck: " + Arrays.toString(theDealer.getCardDeck()));
+                // Print each card in the player's deck
+                System.out.print("Player's deck: ");
+                for (Card card : thePlayer.getCardDeck()) 
+                {
+                    if (card != null) 
+                    {
+                        System.out.print(card.getCardName() + ", ");
+                    }
+                }
+                System.out.println();
+
+                // Print each card in the dealer's deck
+                System.out.print("Dealer's deck: ");
+                for (Card card : theDealer.getCardDeck()) {
+                    if (card != null) 
+                    {
+                        System.out.print(card.getCardName() + ", ");
+                    }
+                }
+                System.out.println();
 
                 // Adds a buffer to the scanner
                 input.nextLine();
@@ -251,52 +298,66 @@ public class CasinoWarGame
                 System.out.println();
 
                 // Temporary variables that store references to the player's and dealer's card deck
-                Card[] playerTempDeck = thePlayer.getCardDeck();
-                Card[] dealerTempDeck = theDealer.getCardDeck();    
+                ArrayList<Card> playerTempDeck = thePlayer.getCardDeck();
+                ArrayList<Card> dealerTempDeck = theDealer.getCardDeck();    
                 System.out.println("Number of cards in your current deck: " + getLastIndex(playerTempDeck));
                 System.out.println();
 
                 // Informs the player what card they drew
-                System.out.println("You drew a: " + (playerTempDeck[0].getCardName()) + " card");
+                System.out.println("You drew a: " + (playerTempDeck.get(0).getCardName()) + " card");
 
                 // Informs the player what card the dealer drew
-                System.out.println("The dealer drew a: " + (dealerTempDeck[0].getCardName()) + " card");
+                System.out.println("The dealer drew a: " + (dealerTempDeck.get(0).getCardName()) + " card");
 
                 // Conditional statement to check if the first element has null
-                if (playerTempDeck[0] == null || dealerTempDeck[0] == null) 
+                if (playerTempDeck.get(0) == null || dealerTempDeck.get(0) == null) 
                 {
                     moveElements(dealerTempDeck);
                     moveElements(playerTempDeck);
                 }
 
                 // Conditional statement to check the values between the dealer's and player's card
-                if (playerTempDeck[0].getCardValue() > dealerTempDeck[0].getCardValue())
+                if (playerTempDeck.get(0).getCardValue() > dealerTempDeck.get(0).getCardValue())
                 {
                     System.out.println("You win the round!");
-                    playerTempDeck[getFirstEmptyIndex(playerTempDeck)] = dealerTempDeck[0];
-                    playerTempDeck[getFirstEmptyIndex(playerTempDeck)] = playerTempDeck[0];
+                    playerTempDeck.set(getFirstEmptyIndex(playerTempDeck), dealerTempDeck.get(0));
+                    playerTempDeck.set(getFirstEmptyIndex(playerTempDeck), playerTempDeck.get(0));
                     moveElements(dealerTempDeck);
                     moveElements(playerTempDeck);
                 }
-                else if (playerTempDeck[0].getCardValue() == dealerTempDeck[0].getCardValue())
+                else if (playerTempDeck.get(0).getCardValue() == dealerTempDeck.get(0).getCardValue())
                 {
                     System.out.println("WAR");
                     System.out.println("Would you like to continue?");
                     input.nextLine();
                     startWar(playerTempDeck, dealerTempDeck);
                 }
-                else if (playerTempDeck[0].getCardValue() < dealerTempDeck[0].getCardValue())
+                else if (playerTempDeck.get(0).getCardValue() < dealerTempDeck.get(0).getCardValue())
                 {
                     System.out.println("You lost the round!");
-                    dealerTempDeck[getFirstEmptyIndex(dealerTempDeck)] = playerTempDeck[0];
-                    dealerTempDeck[getFirstEmptyIndex(dealerTempDeck)] = dealerTempDeck[0];
+                    dealerTempDeck.set(getFirstEmptyIndex(dealerTempDeck), playerTempDeck.get(0));
+                    dealerTempDeck.set(getFirstEmptyIndex(dealerTempDeck), dealerTempDeck.get(0));
                     moveElements(dealerTempDeck);
                     moveElements(playerTempDeck);
                 }
                 // Program informs user of what deck they get and what deck the dealer gets
                 System.out.println(thePlayer.getName() + " gets deck #" + (indexOfCardArray + 1));
                 System.out.println(theDealer.getName() + " gets deck #" + (indexOfCardArray + 2));
-                shuffleArray(playerTempDeck, dealerTempDeck);
+                System.out.println("All cards get shuffled");
+
+                // Conditional where if enableShuffling is true, then both dealer and player cards get shuffled
+                if (enableShuffling)
+                {
+                    // Creates new objects that used Casted versions of the person objects
+                    Player1 playerCasted = (Player1) thePlayer;
+                    Dealer dealerCasted = (Dealer) theDealer;
+
+                    // Calls methods from the casted objects to shuffle
+                    // the cards
+                    playerCasted.shuffleRedCards(playerTempDeck);
+                    dealerCasted.shuffleBlackCards(dealerTempDeck);
+                }
+
                 System.out.println();
 
                 // Condition to see if one of the players has the full number of cards
@@ -394,39 +455,45 @@ public class CasinoWarGame
     }
     // Method that moves elements in the array to the left 1 time
     // This is to simulate the removal of the card from the deck
-    public static void moveElements(Card[] arr)
+    public static void moveElements(ArrayList<Card> list)
     {
-        for (int i = 1; i < arr.length; i++)
+        for (int i = 1; i < list.size(); i++)
         {
-            arr[i - 1] = arr[i];
+            list.set(i-1, list.get(i));
         }
     }
-    // Method that traverses through an array and returns the first empty index
-    public static int getFirstEmptyIndex(Card[] arr)
+    // Method that returns the first empty index in an ArrayList (i.e., the first null element)
+    /*\
+     * Returns the index of the first empty (null) element in the given list of cards,
+     * where the previous element is not null. This is typically used to find the first
+     * available slot after a sequence of non-null elements.
+    \*/
+    public static int getFirstEmptyIndex(ArrayList<Card> list)
     {
         int index = 0;
-        for (int i = 1; i < arr.length; i++)
+        for (int i = 1; i < list.size(); i++)
         {
-            if ((arr[i] == null) && arr[i - 1] != null)
+            if (list.get(i) == null && (list.get(i-1) != null))
             {
                 index = i;
-                i = arr.length;
+                i = list.size();
             }
         }
         return index;
     }
-    // Method that traverses through an array and returns the index of the last non-null element
-    public static int getLastIndex(Card[] arr)
+
+    // Method that returns the count of non-null elements in the ArrayList
+    public static int getLastIndex(ArrayList<Card> list)
     {
-        int index = 0;
-        for (int i = 1; i < arr.length; i++)
+        int count = 0;
+        for (Card card : list)
         {
-            if (arr[i] != null)
+            if (card != null)
             {
-                index = i + 1;
+                count++;
             }
         }
-        return index;
+        return count;
     }
     // Debug method that traverses through an array and prints out the card names
     public static void debugArray(Card[] arr1, Card[] arr2)
@@ -466,72 +533,52 @@ public class CasinoWarGame
         }
         System.out.println();       
     }
-    // // Method to shuffle the array
-    // public static void shuffleArray(Card[] arr1, Card[] arr2)
-    // {
-    //     Card temp1;
-    //     Card temp2;
-    //     // 1st Array Shuffle
-    //     for (int i = 0; i < getLastIndex(arr1); i++)
-    //     {
-    //         int randomNumber = (int)(Math.random()*getLastIndex(arr1));
-    //         temp1 = arr1[i];
-    //         temp2 = arr1[randomNumber];
-    //         arr1[randomNumber] = temp1;
-    //         arr1[i] = temp2;
-    //     }
-    //     // 2nd Array Shuffle
-    //     for (int i = 0; i < getLastIndex(arr2); i++)
-    //     {
-    //         int randomNumber = (int)(Math.random()*getLastIndex(arr2));
-    //         temp1 = arr2[i];
-    //         temp2 = arr2[randomNumber];
-    //         arr2[randomNumber] = temp1;
-    //         arr2[i] = temp2;
-    //     }
-    // }
     // War Method
-    public static void startWar(Card[] arr1, Card[] arr2)
+    public static void startWar(ArrayList<Card> arr1, ArrayList<Card> arr2)
     {
-        // Same conditional as in the while loop within the main method
         int index = 3;
         boolean war = true;
-        // While loop that starts the war game
-        while(war)
+        while (war)
         {
-            // Conditonals
-            // Player gets 4 more cards if they win War
-            if (arr1[index].getCardValue() > arr2[index].getCardValue())
+            // Check for nulls or out-of-bounds to avoid exceptions
+            if (index >= arr1.size() || index >= arr2.size() || arr1.get(index) == null || arr2.get(index) == null) 
             {
-                System.out.println("You win the War round!");
-                for (int i = 0; i < index; i++)
-                {
-                    arr1[getFirstEmptyIndex(arr1)] = arr2[i];
-                    arr1[getFirstEmptyIndex(arr1)] = arr1[i];
-                    moveElements(arr2);
-                    moveElements(arr1);
-                }
+                System.out.println("Not enough cards to continue war!");
                 war = false;
-            }
-            // Player loses 4 cards if they lose War
-            else if (arr1[index].getCardValue() < arr2[index].getCardValue())
-            {
-                System.out.println("You lose the War round!");
-                for (int i = 0; i < index; i++)
+                // Player wins war
+                if (arr1.get(index).getCardValue() > arr2.get(index).getCardValue())
                 {
-                    arr2[getFirstEmptyIndex(arr2)] = arr1[i];
-                    arr2[getFirstEmptyIndex(arr2)] = arr2[i];
-                    moveElements(arr2);
-                    moveElements(arr1);
+                    System.out.println("You win the War round!");
+                    for (int i = 0; i < index; i++)
+                    {
+                        arr1.set(getFirstEmptyIndex(arr1), arr2.get(i));
+                        arr1.set(getFirstEmptyIndex(arr1), arr1.get(i));
+                        moveElements(arr2);
+                        moveElements(arr1);
+                    }
+                    war = false;
                 }
-                war = false;
+                // Dealer wins war
+                else if (arr1.get(index).getCardValue() < arr2.get(index).getCardValue())
+                {
+                    System.out.println("You lose the War round!");
+                    for (int i = 0; i < index; i++)
+                    {
+                        arr2.set(getFirstEmptyIndex(arr2), arr1.get(i));
+                        arr2.set(getFirstEmptyIndex(arr2), arr2.get(i));
+                        moveElements(arr2);
+                        moveElements(arr1);
+                    }
+                    war = false;
+                }
+                // Tie, continue war
+                else
+                {
+                    System.out.println("You and the Dealer tied the War round!");
+                    index += 4;
+                }
             }
-            // If the war ends with the same cards, then the index increments and the game starts again
-            else
-            {
-                System.out.println("You and the Dealer tied the War round!");
-                index += 4;
-            }
+            
         }
     }
 }

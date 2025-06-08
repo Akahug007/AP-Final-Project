@@ -7,7 +7,7 @@ import java.util.ArrayList;
 interface personInterface
 {
     public ArrayList<Card> getCardDeck();
-    public void setCardDeck(ArrayList<Card> deck);
+    public void setCardDeck(int numDeck, int sizeDeck);
 }
 
 // This is the parent class for the Player and Dealer classes
@@ -24,7 +24,7 @@ public class Person implements personInterface
     private boolean isPlayer = false;
 
     // Declares an array of integers to represent the card deck
-    private ArrayList<Card> cardDeck;
+    private ArrayList<Card> cardDeck = new ArrayList<>();
 
     // Parent class Constructor which takes in a name argument
     public Person(String theName, int theBalance, boolean player)
@@ -80,18 +80,26 @@ public class Person implements personInterface
     }
 
     // Method to set the card deck
-    public void setCardDeck(ArrayList<Card> cardList)
+    public void setCardDeck(int numDeck, int sizeDeck)
     {
-        // Instantiates the cardDeck array with the deck
-        this.cardDeck = cardList;
-
-        // For loop that sets each card to a random card through
-        // calling the setCardValue method
-        for (int i = 0; i < this.cardDeck.size(); i++)
+        // Initialize each deck with Card objects
+        for (int i = 0; i < numDeck; i++)
         {
-            if (cardDeck.get(i) != null)
+            for (int j = 0; j < sizeDeck; j++) 
             {
-                cardDeck.get(i).setCardValue();
+                // You may need to adjust the constructor parameters for Card as needed
+                // Replace the following line with the correct Card constructor parameters if needed
+                if (j <= sizeDeck/2)
+                {
+                    // Adds a new Card to the arrayList
+                    cardDeck.add(new Card());
+                    cardDeck.get(j).setCardValue();
+                }
+                else
+                {
+                    // Adds null to the arrayList
+                    cardDeck.add(null);
+                }
             }
         }
     }
