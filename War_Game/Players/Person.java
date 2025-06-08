@@ -20,11 +20,16 @@ public class Person implements personInterface
     // Instance variable for a person's total balance
     private int totalBalance = 500;
 
+    // int variable to set the total size of the cardDeck
+    public static int totalDeckSize = 0;
+
     // Instance boolean variable
     private boolean isPlayer = false;
 
     // Declares an array of integers to represent the card deck
     private ArrayList<Card> cardDeck = new ArrayList<>();
+
+    
 
     // Parent class Constructor which takes in a name argument
     public Person(String theName, int theBalance, boolean player)
@@ -82,6 +87,9 @@ public class Person implements personInterface
     // Method to set the card deck
     public void setCardDeck(int numDeck, int sizeDeck)
     {
+        // Assigns totalDeckSize with numDeck times the sizeDeck
+        totalDeckSize = numDeck * sizeDeck;
+        
         // Initialize each deck with Card objects
         for (int i = 0; i < numDeck; i++)
         {
@@ -102,6 +110,18 @@ public class Person implements personInterface
                 }
             }
         }
+    }
+
+    // Method to change the card deck
+    public void changeCardDeck(ArrayList<Card> newCardDeck)
+    {
+        cardDeck = newCardDeck;
+    }
+
+    // Method to return totalDeckSize
+    public static int getTotalDeckSize()
+    {
+        return totalDeckSize;
     }
     
     // toString method for this class

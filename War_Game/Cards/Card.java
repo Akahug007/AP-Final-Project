@@ -46,6 +46,16 @@ public class Card implements CardInterface
         setCardName(cardNumber);
     }
 
+    // Sets the card number with a directly implicit number
+    public void setCardValue(int num)
+    {
+        // cardNumber gets decalred and initialized with num
+        int cardNumber = num;
+
+        // Calls the setCardName method with the cardNumber as an argument
+        setCardName(cardNumber);
+    }
+
     // Sets the card display name
     public void setCardName(int cardNumber)
     {
@@ -111,11 +121,13 @@ public class Card implements CardInterface
     {
         return theCardNumber;
     }
+    
     // Returns Card Name
     public String getCardName()
     {
         return CardName;
     }
+
     // Access method that returns the card's boolean variable
     public String getCardColor()
     {

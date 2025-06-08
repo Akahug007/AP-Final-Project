@@ -9,6 +9,7 @@ package Main;
 
 // Imports classes from the Players package
 import Cards.Card;
+import Players.CheatPlayer;
 import Players.Dealer;
 import Players.Person;
 import Players.Player1;
@@ -30,6 +31,7 @@ public class CasinoWarGame
         // Creates a string variables called getNumberString and getYesNoString1
         String getNumberString = "";
         String getYesNoString1 = "";
+        String getYesNoString2 = "";
 
         // Creates a boolean variable called enableShuffling
         boolean enableShuffling = false;
@@ -164,7 +166,9 @@ public class CasinoWarGame
             System.out.println("cool name I guess");
         }
         
-        System.out.println();
+        System.out.println("Would you like to cheat?");
+        getYesNoString2 = input.nextLine();
+
 
         // Creates an instance of Player1 class
         Person thePlayer;
@@ -173,15 +177,31 @@ public class CasinoWarGame
         // Creates an instance of Dealer class
         Person theDealer;
 
-        if (enableShuffling)
+        if (getYesNoString2.equalsIgnoreCase("No"))
         {
-            thePlayer = new Player1(playerName, true);
-            theDealer = new Dealer("The Dealer", false);
+            if (enableShuffling)
+            {
+                thePlayer = new Player1(playerName, true);
+                theDealer = new Dealer("The Dealer", false);
+            }
+            else
+            {
+                thePlayer = new Person(playerName, true);
+                theDealer = new Person("The Dealer", false);
+            }
         }
         else
         {
-            thePlayer = new Person(playerName, true);
-            theDealer = new Person("The Dealer", false);
+            if (enableShuffling)
+            {
+                thePlayer = new CheatPlayer(playerName, true);
+                theDealer = new Dealer("The Dealer", false);
+            }
+            else
+            {
+                thePlayer = new Person(playerName, true);
+                theDealer = new Person("The Dealer", false);
+            }
         }
 
         // Boolean variable for the playAgain option
@@ -205,7 +225,16 @@ public class CasinoWarGame
             boolean gameLoop = true;
 
             // Program assigns the deck to the player and dealer
-            thePlayer.setCardDeck(numberOfDeck, sizeOfDeck);
+            if (getYesNoString2.equalsIgnoreCase("No"))
+            {
+                CheatPlayer cheatPlayerCast = (CheatPlayer) thePlayer;
+                cheatPlayerCast.setCardCheatDeck();
+            }
+            else
+            {
+                thePlayer.setCardDeck(numberOfDeck, sizeOfDeck);
+            }
+            
             theDealer.setCardDeck(numberOfDeck, sizeOfDeck);
             indexOfCardArray++;
 
