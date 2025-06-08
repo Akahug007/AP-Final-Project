@@ -6,7 +6,7 @@ The program is similarly based on a real-life game called Casino-War game.
 - Though the game is modified in the program
 It features fake currency that can be used to play games called War.
 
-How to play the game:
+- How to play the game:
   In real life:
     - Casino War game starts with a deck of 52 cards shuffled
     - Players simultaneously flip the top card of their deck
